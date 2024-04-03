@@ -1,8 +1,12 @@
+import { Application as PixiApplication } from 'pixi.js'
+
 export class App {
+  pixiApp: PixiApplication
   htmlElement: HTMLElement
 
   async bootstrap (): Promise<void> {
-    this.htmlElement = document.createElement('h1')
-    this.htmlElement.innerHTML = 'App works'
+    this.pixiApp = new PixiApplication()
+    await this.pixiApp.init({ background: 'black', resizeTo: window })
+    this.htmlElement = this.pixiApp.canvas
   }
 }
