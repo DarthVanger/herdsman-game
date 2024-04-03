@@ -6,7 +6,8 @@
     "target": "es5",
     "moduleResolution": "node",
     "allowJs": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*.ts", "webpack.config.js"]
 }
