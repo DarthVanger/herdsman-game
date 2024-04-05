@@ -1,6 +1,6 @@
 import { Application as PixiApplication } from 'pixi.js'
 
-export class App {
+export class Game {
   pixiApp: PixiApplication
   htmlElement: HTMLElement
 
