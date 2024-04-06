@@ -3,8 +3,9 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { SpriteComponent } from '../components/SpriteComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { pixiApp } from '../pixiApp'
+import { type System } from '../ecsFramework/System'
 
-export class SpriteSystem {
+export class SpriteSystem implements System {
   async setup (): Promise<void> {
     const entities = entityManager.getAllEntitiesByComponentClassName(SpriteComponent.name)
     const spriteComponents = entities.map(entity => entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent)
