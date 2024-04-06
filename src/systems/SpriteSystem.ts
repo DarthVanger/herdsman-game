@@ -18,8 +18,11 @@ export class SpriteSystem implements System {
 
     for (const entity of entities) {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
+      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
       const texture = textures[spriteComponent.url]
       spriteComponent.sprite = Sprite.from(texture)
+      spriteComponent.sprite.anchor.set(0.5, 0.5)
+      this.transformSprite(spriteComponent.sprite, transformComponent)
       pixiApp.stage.addChild(spriteComponent.sprite)
     }
   }
@@ -29,7 +32,15 @@ export class SpriteSystem implements System {
     for (const entity of entities) {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
-      spriteComponent.sprite.x = transformComponent.x
+      this.transformSprite(spriteComponent.sprite, transformComponent)
     }
+  }
+
+  transformSprite (sprite: Sprite, transformComponent: TransformComponent): void {
+    sprite.x = transformComponent.x
+    sprite.y = transformComponent.y
+    sprite.width = transformComponent.width
+    sprite.height = transformComponent.height
+    sprite.rotation = transformComponent.rotation
   }
 }
