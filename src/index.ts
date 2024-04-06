@@ -1,11 +1,13 @@
 import './style.css'
-import { Game } from './App'
+import { Game } from './Game'
 
 const init = async (): Promise<void> => {
-  const app = new Game()
-  await app.bootstrap()
+  const game = new Game()
+  await game.bootstrap()
 
-  document.body.append(app.htmlElement)
+  document.body.append(game.htmlElement)
+
+  game.start()
 }
 
 init()
