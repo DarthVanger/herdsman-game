@@ -7,7 +7,7 @@ export abstract class GameObject {
   entity: Entity = entityManager.createEntity()
 
   constructor () {
-    this.addComponent(TransformComponent)
+    this.addComponent(new TransformComponent())
   }
 
   addComponent (component: Component): void {
