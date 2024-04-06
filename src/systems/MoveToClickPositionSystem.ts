@@ -34,6 +34,11 @@ export class MoveToClickPositionSystem implements System {
 
       transformComponent.x += moveToClickPositionComponent.velocityVector.x
       transformComponent.y += moveToClickPositionComponent.velocityVector.y
+
+      const desiredRotation = this.computeDesiredRotation(moveToClickPositionComponent.velocityVector)
+      if (Math.abs(desiredRotation - transformComponent.rotation) > moveToClickPositionComponent.rotationSpeed) {
+        transformComponent.rotation += moveToClickPositionComponent.rotationSpeed * Math.sign(desiredRotation - transformComponent.rotation)
+      }
     }
   }
 
@@ -48,8 +53,6 @@ export class MoveToClickPositionSystem implements System {
       moveToClickPositionComponent.velocityVector = this.computeVelocityVector(
         transformComponent, moveToClickPositionComponent.destinationPoint, moveToClickPositionComponent.speed
       )
-
-      this.rotateInDirectionOfMovement(transformComponent, moveToClickPositionComponent.velocityVector)
     }
   }
 
@@ -73,7 +76,7 @@ export class MoveToClickPositionSystem implements System {
     return Math.hypot(destinationPoint.x - transformComponent.x, destinationPoint.y - transformComponent.y)
   }
 
-  rotateInDirectionOfMovement (transformComponent: TransformComponent, velocityVector: PointData): void {
-    transformComponent.rotation = Math.atan2(velocityVector.y, velocityVector.x)
+  computeDesiredRotation (velocityVector: PointData): number {
+    return Math.atan2(velocityVector.y, velocityVector.x)
   }
 }
