@@ -10,8 +10,8 @@ export class SpriteSystem implements System {
     const entities = entityManager.getAllEntitiesByComponentClassName(SpriteComponent.name)
     const spriteComponents = entities.map(entity => entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent)
     const assets = spriteComponents.map(spriteComponent => ({
-      alias: spriteComponent.url,
-      src: spriteComponent.url
+      alias: spriteComponent.src,
+      src: spriteComponent.src
     }))
 
     const textures = await Assets.load<Record<string, Texture>>(assets)
@@ -19,9 +19,9 @@ export class SpriteSystem implements System {
     for (const entity of entities) {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
-      const texture = textures[spriteComponent.url]
+      const texture = textures[spriteComponent.src]
       spriteComponent.sprite = Sprite.from(texture)
-      spriteComponent.sprite.anchor.set(0.5, 0.5)
+      spriteComponent.sprite.anchor.set(spriteComponent.anchor.x, spriteComponent.anchor.y)
       this.transformSprite(spriteComponent.sprite, transformComponent)
       pixiApp.stage.addChild(spriteComponent.sprite)
     }

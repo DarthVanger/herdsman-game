@@ -8,7 +8,7 @@ export class MainHero extends GameObject {
   constructor () {
     super()
     this.addComponent(new TransformComponent({ width: 150, height: 150 / 1.31 }))
-    this.addComponent(new SpriteComponent(cowboyImage as string))
+    this.addComponent(new SpriteComponent({ src: cowboyImage as string, anchor: { x: 0.5, y: 0.5 } }))
     this.addComponent(new MoveToClickPositionComponent())
   }
 }

@@ -20,6 +20,7 @@ export class Game {
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })
     pixiApp.stage.addChild(loadingGraphics)
 
+    spawner.spawnYard()
     spawner.spawnMainCharacter()
 
     await Promise.all(this.systems.map(async system => { await system.setup?.() }))
