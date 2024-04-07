@@ -1,3 +1,4 @@
+import { type Application } from 'pixi.js'
 import { ScoreComponent } from '../components/ScoreComponent'
 import { ScriptComponent } from '../components/ScriptComponent'
 // import { ScriptComponent } from '../components/ScriptComponent'
@@ -10,9 +11,26 @@ import { type System } from '../ecsFramework/System'
 import { pixiApp } from '../pixiApp'
 
 export class Score extends GameObject {
+  static getFontSize (pixiApp: Application): number {
+    return pixiApp.renderer.height / 36
+  }
+
+  static getY (pixiApp: Application): number {
+    return Score.getFontSize(pixiApp) / 2
+  }
+
+  static getHeight (pixiApp: Application): number {
+    return Score.getFontSize(pixiApp)
+  }
+
   constructor () {
     super()
-    const fontSize = pixiApp.renderer.height / 36
+
+    const fontSize = Score.getFontSize(pixiApp)
+    const x = pixiApp.renderer.width / 2
+    const y = fontSize / 2
+
+    this.addComponent(new TransformComponent({ x, y, anchor: { x: 0.5, y: 0 } }))
 
     this.addComponent(new TextComponent({
       text: 'score: 0',
@@ -21,15 +39,12 @@ export class Score extends GameObject {
         fill: 0xffffff
       }
     }))
+
     this.addComponent(new ScoreComponent())
-    const x = pixiApp.renderer.width / 2
-    const y = fontSize / 2
-    this.addComponent(new TransformComponent({ x, y, anchor: { x: 0.5, y: 0 } }))
     this.addComponent(new ScriptComponent(new ScoreScript(this.entity)))
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ScoreScript implements System {
   entity: Entity
 
