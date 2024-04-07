@@ -8,4 +8,8 @@ export abstract class GameObject {
   addComponent (component: Component): void {
     entityManager.addComponent(component, this.entity)
   }
+
+  setTag (tag: string): void {
+    entityManager.setEntityTag(this.entity, tag)
+  }
 }

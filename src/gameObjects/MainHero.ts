@@ -6,10 +6,13 @@ import { TransformComponent } from '../components/TransformComponent'
 import { pixiApp } from '../pixiApp'
 
 export class MainHero extends GameObject {
+  static tag = 'MainHero'
+
   constructor () {
     super()
     const width = pixiApp.renderer.width / 8
     const height = width * 1.3
+    this.setTag(MainHero.tag)
     this.addComponent(new TransformComponent({ width, height }))
     this.addComponent(new SpriteComponent({ src: mainHeroImage as string, anchor: { x: 0.5, y: 0.5 } }))
     this.addComponent(new MoveToClickPositionComponent())

@@ -7,6 +7,7 @@ export class EntityManager {
   private lowestUnassignedEntityId = 1
   private readonly entities: Entity[] = []
   private readonly componentsByClassName = new Map<string, ComponentsMap>()
+  private readonly entitiesByTag = new Map<string, Entity[]>()
 
   generateEntityId (): number {
     return this.lowestUnassignedEntityId++
@@ -19,6 +20,15 @@ export class EntityManager {
     return entity
   }
 
+  setEntityTag (entity: Entity, tag: string): void {
+    let entitiesArray = this.entitiesByTag.get(tag)
+    if (entitiesArray === undefined) {
+      entitiesArray = []
+      this.entitiesByTag.set(tag, entitiesArray)
+    }
+    entitiesArray.push(entity)
+  }
+
   addComponent (component: Component, entity: Entity): void {
     const componentClassName = component.constructor.name
     let componentsMap = this.componentsByClassName.get(componentClassName)
@@ -27,6 +37,11 @@ export class EntityManager {
       this.componentsByClassName.set(componentClassName, componentsMap)
     }
     componentsMap.set(entity.id, component)
+  }
+
+  removeComponentByClassName (componentClassName: string, entity: Entity): void {
+    const componentsMap = this.componentsByClassName.get(componentClassName)
+    componentsMap?.delete(entity.id)
   }
 
   getComponentByClassName (componentClassName: string, entity: Entity): Component | undefined {
@@ -43,6 +58,11 @@ export class EntityManager {
     }
 
     return entities
+  }
+
+  getAllEntitiesByTag (tag: string): Entity[] {
+    const entities = this.entitiesByTag.get(tag)
+    return entities ?? []
   }
 }
 

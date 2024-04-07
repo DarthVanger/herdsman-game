@@ -4,6 +4,7 @@ import { SpriteSystem } from './systems/SpriteSystem'
 import { spawner } from './Spawner'
 import { type System } from './ecsFramework/System'
 import { MoveToClickPositionSystem } from './systems/MoveToClickPositionSystem'
+import { CaptureSystem } from './systems/CaptureSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -15,7 +16,11 @@ export class Game {
   }
 
   async start (): Promise<void> {
-    this.systems = [new SpriteSystem(), new MoveToClickPositionSystem()]
+    this.systems = [
+      new SpriteSystem(),
+      new MoveToClickPositionSystem(),
+      new CaptureSystem()
+    ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })
     pixiApp.stage.addChild(loadingGraphics)
