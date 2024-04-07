@@ -1,18 +1,25 @@
-import { Rectangle, type FederatedPointerEvent, type PointData } from 'pixi.js'
 import { type System } from '../ecsFramework/System'
-import { pixiApp } from '../pixiApp'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { TransformComponent } from '../components/TransformComponent'
 import { computeVelocityVectorToTarget } from '../utils/physics'
+import { SpriteComponent } from '../components/SpriteComponent'
+import { type PointData, type FederatedPointerEvent } from 'pixi.js'
 
 export class MoveToClickPositionSystem implements System {
   setup (): void {
-    pixiApp.stage.eventMode = 'static'
-    pixiApp.stage.cursor = 'pointer'
-    pixiApp.stage.hitArea = new Rectangle(0, 0, window.innerWidth, window.innerHeight)
-
-    pixiApp.stage.on('pointerdown', event => { this.handlePointerDown(event) })
+    const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
+    for (const entity of entities) {
+      const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
+      const clickableAreaEntities = entityManager.getAllEntitiesByTag(moveToClickPositionComponent.clickableAreaTag)
+      for (const clickableAreaEntity of clickableAreaEntities) {
+        const clickableAreaSpriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, clickableAreaEntity) as SpriteComponent
+        const pixiSprite = clickableAreaSpriteComponent.sprite
+        pixiSprite.eventMode = 'static'
+        pixiSprite.cursor = 'pointer'
+        pixiSprite.on('pointerdown', event => { this.handlePointerDown(event) })
+      }
+    }
   }
 
   update (): void {

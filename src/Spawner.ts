@@ -27,8 +27,8 @@ class Spawner {
     const animalCount = 5 + Math.random() * 20
     for (let i = 0; i < animalCount; i++) {
       new Animal({
-        x: Math.random() * pixiApp.renderer.width,
-        y: Math.random() * pixiApp.renderer.height
+        x: GameField.getX(pixiApp) + Math.random() * GameField.getWidth(pixiApp),
+        y: GameField.getY(pixiApp) + Math.random() * GameField.getHeight(pixiApp)
       })
     }
   }
