@@ -5,8 +5,6 @@ import { TransformComponent } from '../components/TransformComponent'
 import { computeVelocityVectorToTarget } from '../utils/physics'
 
 export class FollowSystem implements System {
-  followSpeed = 1.5
-
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(FollowComponent.name)
     for (const entity of entities) {
@@ -14,7 +12,7 @@ export class FollowSystem implements System {
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
       const targetTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, followComponent.targetEntity) as TransformComponent
 
-      const velocityVector = computeVelocityVectorToTarget(transformComponent, targetTransformComponent, this.followSpeed)
+      const velocityVector = computeVelocityVectorToTarget(transformComponent, targetTransformComponent, followComponent.followSpeed)
       const followAtDistance = targetTransformComponent.width
       const distance = Math.hypot(transformComponent.x - targetTransformComponent.x, transformComponent.y - targetTransformComponent.y)
 

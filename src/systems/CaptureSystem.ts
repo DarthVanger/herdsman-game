@@ -21,15 +21,15 @@ export class CaptureSystem implements System {
         const captureRadius = transformComponent.width + targetTransformComponent.width
         const distance = Math.hypot(transformComponent.x - targetTransformComponent.x, transformComponent.y - targetTransformComponent.y)
         if (distance < captureRadius && targetCaptureTargetComponent.groupSize < targetCaptureTargetComponent.maxGroupSize) {
-          this.capture(entity, targetEntity)
+          this.capture(entity, targetEntity, captureComponent)
           targetCaptureTargetComponent.groupSize++
         }
       }
     }
   }
 
-  private capture (entity: Entity, targetEntity: Entity): void {
+  private capture (entity: Entity, targetEntity: Entity, captureComponent: CaptureComponent): void {
     entityManager.removeComponentByClassName(CaptureComponent.name, entity)
-    entityManager.addComponent(new FollowComponent({ targetEntity }), entity)
+    entityManager.addComponent(new FollowComponent({ targetEntity, followSpeed: captureComponent.followSpeed }), entity)
   }
 }
