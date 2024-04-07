@@ -22,6 +22,7 @@ export class Game {
 
     spawner.spawnGameField()
     spawner.spawnYard()
+    spawner.spawnAnimals()
     spawner.spawnMainCharacter()
 
     await Promise.all(this.systems.map(async system => { await system.setup?.() }))
