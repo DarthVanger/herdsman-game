@@ -1,3 +1,4 @@
+import { type PointData } from 'pixi.js'
 import { type Component } from '../ecsFramework/Component'
 
 export class TransformComponent implements Component {
@@ -6,12 +7,14 @@ export class TransformComponent implements Component {
   width: number
   height: number
   rotation: number
+  anchor: PointData
 
-  constructor ({ x = 0, y = 0, width = 0, height = 0, rotation = 0 } = {}) {
+  constructor ({ x = 0, y = 0, width = 0, height = 0, rotation = 0, anchor = { x: 0, y: 0 } } = {}) {
     this.x = x
     this.y = y
     this.width = width
     this.height = height
     this.rotation = rotation
+    this.anchor = anchor
   }
 }

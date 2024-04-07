@@ -3,6 +3,7 @@ import { TransformComponent } from '../components/TransformComponent'
 import { GameObject } from '../ecsFramework/GameObject'
 import yardImage from '../../assets/yard.png'
 import { pixiApp } from '../pixiApp'
+import { AnimalYardComponent } from '../components/AnimalYardComponent'
 
 export class Yard extends GameObject {
   constructor () {
@@ -13,5 +14,6 @@ export class Yard extends GameObject {
     const y = pixiApp.renderer.height / 2 - height / 2
     this.addComponent(new TransformComponent({ x, y, height, width }))
     this.addComponent(new SpriteComponent({ src: yardImage as string }))
+    this.addComponent(new AnimalYardComponent())
   }
 }

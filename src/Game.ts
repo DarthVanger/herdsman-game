@@ -6,6 +6,7 @@ import { type System } from './ecsFramework/System'
 import { MoveToClickPositionSystem } from './systems/MoveToClickPositionSystem'
 import { CaptureSystem } from './systems/CaptureSystem'
 import { FollowSystem } from './systems/FollowSystem'
+import { AnimalYardSystem } from './systems/AnimalYardSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -21,7 +22,8 @@ export class Game {
       new SpriteSystem(),
       new MoveToClickPositionSystem(),
       new CaptureSystem(),
-      new FollowSystem()
+      new FollowSystem(),
+      new AnimalYardSystem()
     ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })
