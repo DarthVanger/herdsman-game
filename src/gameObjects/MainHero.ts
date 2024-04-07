@@ -1,14 +1,17 @@
 import { SpriteComponent } from '../components/SpriteComponent'
 import { GameObject } from '../ecsFramework/GameObject'
-import cowboyImage from '../../assets/cowboy.webp'
+import mainHeroImage from '../../assets/main-hero.png'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { TransformComponent } from '../components/TransformComponent'
+import { pixiApp } from '../pixiApp'
 
 export class MainHero extends GameObject {
   constructor () {
     super()
-    this.addComponent(new TransformComponent({ width: 150, height: 150 / 1.31 }))
-    this.addComponent(new SpriteComponent({ src: cowboyImage as string, anchor: { x: 0.5, y: 0.5 } }))
+    const width = pixiApp.renderer.width / 8
+    const height = width * 1.3
+    this.addComponent(new TransformComponent({ width, height }))
+    this.addComponent(new SpriteComponent({ src: mainHeroImage as string, anchor: { x: 0.5, y: 0.5 } }))
     this.addComponent(new MoveToClickPositionComponent())
   }
 }
