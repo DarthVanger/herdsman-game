@@ -7,6 +7,8 @@ import { MoveToClickPositionSystem } from './systems/MoveToClickPositionSystem'
 import { CaptureSystem } from './systems/CaptureSystem'
 import { FollowSystem } from './systems/FollowSystem'
 import { AnimalYardSystem } from './systems/AnimalYardSystem'
+import { TextSystem } from './systems/TextSystem'
+import { ScriptSystem } from './systems/ScriptSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -23,7 +25,9 @@ export class Game {
       new MoveToClickPositionSystem(),
       new CaptureSystem(),
       new FollowSystem(),
-      new AnimalYardSystem()
+      new AnimalYardSystem(),
+      new TextSystem(),
+      new ScriptSystem()
     ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })
@@ -31,6 +35,7 @@ export class Game {
 
     spawner.spawnGameField()
     spawner.spawnYard()
+    spawner.spawnScore()
     spawner.spawnAnimals()
     spawner.spawnMainCharacter()
 

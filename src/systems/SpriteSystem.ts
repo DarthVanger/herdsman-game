@@ -8,6 +8,17 @@ import { type System } from '../ecsFramework/System'
 export class SpriteSystem implements System {
   async setup (): Promise<void> {
     const entities = entityManager.getAllEntitiesByComponentClassName(SpriteComponent.name)
+
+    for (const entity of entities) {
+      const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
+      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+      spriteComponent.sprite = new Sprite()
+      spriteComponent.sprite.anchor.set(spriteComponent.anchor.x, spriteComponent.anchor.y)
+      this.transformSprite(spriteComponent.sprite, transformComponent)
+
+      pixiApp.stage.addChild(spriteComponent.sprite)
+    }
+
     const spriteComponents = entities.map(entity => entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent)
     const assets = spriteComponents.map(spriteComponent => ({
       alias: spriteComponent.src,
@@ -18,12 +29,8 @@ export class SpriteSystem implements System {
 
     for (const entity of entities) {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
-      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
       const texture = textures[spriteComponent.src]
-      spriteComponent.sprite = Sprite.from(texture)
-      spriteComponent.sprite.anchor.set(spriteComponent.anchor.x, spriteComponent.anchor.y)
-      this.transformSprite(spriteComponent.sprite, transformComponent)
-      pixiApp.stage.addChild(spriteComponent.sprite)
+      spriteComponent.sprite.texture = texture
     }
   }
 

@@ -2,6 +2,7 @@ import { CaptureTargetComponent } from '../CaptureTargetComponent'
 import { AnimalComponent } from '../components/AnimalComponent'
 import { AnimalYardComponent } from '../components/AnimalYardComponent'
 import { FollowComponent } from '../components/FollowComponent'
+import { ScoreComponent } from '../components/ScoreComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
@@ -19,9 +20,13 @@ export class AnimalYardSystem implements System {
         const followComponent = entityManager.getComponentByClassName(FollowComponent.name, animalEntity) as FollowComponent
 
         if (isBoxInsideBox(animalTransformComponent, animalYardTransformComponent) && followComponent !== undefined) {
-          console.log('animalYardTransformComponent', animalYardTransformComponent)
-          console.log('animalTransformComponent', animalTransformComponent)
           const captureTargetComponent = entityManager.getComponentByClassName(CaptureTargetComponent.name, followComponent.targetEntity) as CaptureTargetComponent
+
+          const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
+          for (const scoreEntity of scoreEntities) {
+            const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, scoreEntity) as ScoreComponent
+            scoreComponent.value++
+          }
 
           entityManager.removeComponentByClassName(FollowComponent.name, animalEntity)
           captureTargetComponent.groupSize--

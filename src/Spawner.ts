@@ -2,6 +2,7 @@
 import { Animal } from './gameObjects/Animal'
 import { GameField } from './gameObjects/GameField'
 import { MainHero } from './gameObjects/MainHero'
+import { Score } from './gameObjects/Score'
 import { Yard } from './gameObjects/Yard'
 import { pixiApp } from './pixiApp'
 
@@ -12,6 +13,10 @@ class Spawner {
 
   spawnYard (): void {
     new Yard()
+  }
+
+  spawnScore (): void {
+    new Score()
   }
 
   spawnMainCharacter (): void {
