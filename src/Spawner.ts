@@ -1,14 +1,19 @@
 /* eslint-disable no-new */
+import { GameField } from './gameObjects/GameField'
 import { MainHero } from './gameObjects/MainHero'
 import { Yard } from './gameObjects/Yard'
 
 class Spawner {
-  spawnMainCharacter (): void {
-    new MainHero()
+  spawnGameField (): void {
+    new GameField()
   }
 
   spawnYard (): void {
     new Yard()
+  }
+
+  spawnMainCharacter (): void {
+    new MainHero()
   }
 }
 

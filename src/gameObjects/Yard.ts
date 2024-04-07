@@ -13,6 +13,5 @@ export class Yard extends GameObject {
     const y = pixiApp.renderer.height / 2 - height / 2
     this.addComponent(new TransformComponent({ x, y, height, width }))
     this.addComponent(new SpriteComponent({ src: yardImage as string }))
-    console.log('yard constructor')
   }
 }
