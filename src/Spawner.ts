@@ -1,9 +1,9 @@
 /* eslint-disable no-new */
-import { MainCharacter } from './gameObjects/MainCharacter'
+import { MainHero } from './gameObjects/MainHero'
 
 class Spawner {
   spawnMainCharacter (): void {
-    new MainCharacter()
+    new MainHero()
   }
 }
 
