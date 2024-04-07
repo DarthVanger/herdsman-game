@@ -1,4 +1,6 @@
+import { CaptureTargetComponent } from '../CaptureTargetComponent'
 import { CaptureComponent } from '../components/CaptureComponent'
+import { FollowComponent } from '../components/FollowComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
@@ -15,17 +17,19 @@ export class CaptureSystem implements System {
       const targetEntities = entityManager.getAllEntitiesByTag(captureComponent.targetTag)
       for (const targetEntity of targetEntities) {
         const targetTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, targetEntity) as TransformComponent
+        const targetCaptureTargetComponent = entityManager.getComponentByClassName(CaptureTargetComponent.name, targetEntity) as CaptureTargetComponent
         const captureRadius = transformComponent.width + targetTransformComponent.width
         const distance = Math.hypot(transformComponent.x - targetTransformComponent.x, transformComponent.y - targetTransformComponent.y)
-        if (distance < captureRadius) {
+        if (distance < captureRadius && targetCaptureTargetComponent.groupSize < targetCaptureTargetComponent.maxGroupSize) {
           this.capture(entity, targetEntity)
+          targetCaptureTargetComponent.groupSize++
         }
       }
     }
   }
 
   private capture (entity: Entity, targetEntity: Entity): void {
-    console.log('captured!', entity, targetEntity)
     entityManager.removeComponentByClassName(CaptureComponent.name, entity)
+    entityManager.addComponent(new FollowComponent({ targetEntity }), entity)
   }
 }

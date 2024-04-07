@@ -4,6 +4,7 @@ import mainHeroImage from '../../assets/main-hero.png'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { pixiApp } from '../pixiApp'
+import { CaptureTargetComponent } from '../CaptureTargetComponent'
 
 export class MainHero extends GameObject {
   static tag = 'MainHero'
@@ -16,5 +17,6 @@ export class MainHero extends GameObject {
     this.addComponent(new TransformComponent({ width, height }))
     this.addComponent(new SpriteComponent({ src: mainHeroImage as string, anchor: { x: 0.5, y: 0.5 } }))
     this.addComponent(new MoveToClickPositionComponent())
+    this.addComponent(new CaptureTargetComponent())
   }
 }

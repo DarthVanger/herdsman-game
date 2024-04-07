@@ -4,6 +4,7 @@ import { pixiApp } from '../pixiApp'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { TransformComponent } from '../components/TransformComponent'
+import { computeVelocityVectorToTarget } from '../utils/physics'
 
 export class MoveToClickPositionSystem implements System {
   setup (): void {
@@ -50,25 +51,9 @@ export class MoveToClickPositionSystem implements System {
 
       moveToClickPositionComponent.destinationPoint = event.client.clone()
 
-      moveToClickPositionComponent.velocityVector = this.computeVelocityVector(
+      moveToClickPositionComponent.velocityVector = computeVelocityVectorToTarget(
         transformComponent, moveToClickPositionComponent.destinationPoint, moveToClickPositionComponent.speed
       )
-    }
-  }
-
-  computeVelocityVector (transformComponent: TransformComponent, destinationPoint: PointData, speed: number): PointData {
-    const distX = destinationPoint.x - transformComponent.x
-    const distY = destinationPoint.y - transformComponent.y
-    const dist = Math.hypot(distX, distY)
-
-    const velocityUnitVector = {
-      x: distX / dist,
-      y: distY / dist
-    }
-
-    return {
-      x: velocityUnitVector.x * speed,
-      y: velocityUnitVector.y * speed
     }
   }
 
