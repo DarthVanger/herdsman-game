@@ -1,16 +1,15 @@
 import { type Application } from 'pixi.js'
 import { ScoreComponent } from '../components/ScoreComponent'
 import { ScriptComponent } from '../components/ScriptComponent'
-// import { ScriptComponent } from '../components/ScriptComponent'
 import { TextComponent } from '../components/TextComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
-import { GameObject } from '../ecsFramework/GameObject'
+import { type GameObject } from '../ecsFramework/GameObject'
 import { type System } from '../ecsFramework/System'
 import { pixiApp } from '../pixiApp'
 
-export class Score extends GameObject {
+export class Score implements GameObject {
   static getFontSize (pixiApp: Application): number {
     return pixiApp.renderer.height / 36
   }
@@ -23,25 +22,25 @@ export class Score extends GameObject {
     return Score.getFontSize(pixiApp)
   }
 
-  constructor () {
-    super()
-
+  static create (): void {
     const fontSize = Score.getFontSize(pixiApp)
     const x = pixiApp.renderer.width / 2
     const y = fontSize / 2
 
-    this.addComponent(new TransformComponent({ x, y, anchor: { x: 0.5, y: 0 } }))
+    const entity = entityManager.createEntity()
 
-    this.addComponent(new TextComponent({
+    entityManager.addComponent(new TransformComponent({ x, y, anchor: { x: 0.5, y: 0 } }), entity)
+
+    entityManager.addComponent(new TextComponent({
       text: 'score: 0',
       style: {
         fontSize,
         fill: 0xffffff
       }
-    }))
+    }), entity)
 
-    this.addComponent(new ScoreComponent())
-    this.addComponent(new ScriptComponent(new ScoreScript(this.entity)))
+    entityManager.addComponent(new ScoreComponent(), entity)
+    entityManager.addComponent(new ScriptComponent(new ScoreScript(entity)), entity)
   }
 }
 

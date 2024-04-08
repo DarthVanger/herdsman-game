@@ -20,7 +20,7 @@ export class EntityManager {
     return entity
   }
 
-  setEntityTag (entity: Entity, tag: string): void {
+  setEntityTag (tag: string, entity: Entity): void {
     let entitiesArray = this.entitiesByTag.get(tag)
     if (entitiesArray === undefined) {
       entitiesArray = []

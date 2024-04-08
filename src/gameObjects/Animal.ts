@@ -1,5 +1,5 @@
 import { SpriteComponent } from '../components/SpriteComponent'
-import { GameObject } from '../ecsFramework/GameObject'
+import { type GameObject } from '../ecsFramework/GameObject'
 import animalImage from '../../assets/cat.png'
 import { TransformComponent } from '../components/TransformComponent'
 import { pixiApp } from '../pixiApp'
@@ -8,8 +8,9 @@ import { MainHero } from './MainHero'
 import { CaptureComponent } from '../components/CaptureComponent'
 import { AnimalComponent } from '../components/AnimalComponent'
 import { PatrolComponent } from '../components/PatrolComponent'
+import { entityManager } from '../ecsFramework/EntityManager'
 
-export class Animal extends GameObject {
+export class Animal implements GameObject {
   static getWidth (pixiApp: Application): number {
     return Animal.getHeight(pixiApp) / 1.8
   }
@@ -20,17 +21,18 @@ export class Animal extends GameObject {
 
   static anchor = { x: 0.5, y: 0.5 }
 
-  constructor ({ x, y }: PointData) {
-    super()
+  static create ({ x, y }: PointData): void {
     const screenDiagonal = Math.hypot(pixiApp.renderer.width, pixiApp.renderer.height)
     const height = Animal.getHeight(pixiApp)
     const width = Animal.getWidth(pixiApp)
     const mainHeroSpeed = MainHero.getSpeed(screenDiagonal)
     const speed = mainHeroSpeed / 2 + Math.random() * mainHeroSpeed / 2
-    this.addComponent(new TransformComponent({ x, y, width, height, anchor: Animal.anchor }))
-    this.addComponent(new SpriteComponent({ src: animalImage as string }))
-    this.addComponent(new CaptureComponent({ targetTag: MainHero.tag, followSpeed: speed }))
-    this.addComponent(new AnimalComponent())
-    this.addComponent(new PatrolComponent({ speed }))
+
+    const entity = entityManager.createEntity()
+    entityManager.addComponent(new TransformComponent({ x, y, width, height, anchor: Animal.anchor }), entity)
+    entityManager.addComponent(new SpriteComponent({ src: animalImage as string }), entity)
+    entityManager.addComponent(new CaptureComponent({ targetTag: MainHero.tag, followSpeed: speed }), entity)
+    entityManager.addComponent(new AnimalComponent(), entity)
+    entityManager.addComponent(new PatrolComponent({ speed }), entity)
   }
 }

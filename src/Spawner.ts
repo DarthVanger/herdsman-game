@@ -11,19 +11,19 @@ class Spawner {
   animalSpawnInterval: number
 
   spawnGameField (): void {
-    new GameField()
+    GameField.create()
   }
 
   spawnYard (): void {
-    new Yard()
+    Yard.create()
   }
 
   spawnScore (): void {
-    new Score()
+    Score.create()
   }
 
   spawnMainCharacter (): void {
-    new MainHero()
+    MainHero.create()
   }
 
   spawnAnimalsWithRandomInterval (): void {
@@ -58,7 +58,7 @@ class Spawner {
       return
     }
 
-    new Animal({
+    Animal.create({
       x,
       y
     })
