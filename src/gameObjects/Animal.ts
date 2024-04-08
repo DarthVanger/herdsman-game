@@ -10,7 +10,7 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 import { FollowComponent } from '../components/FollowComponent'
 import { type State, StateComponent } from '../components/StateComponent'
-import { CaptureTargetComponent } from '../components/CaptureTargetComponent'
+import { FolloweeComponent } from '../components/FolloweeCompoent'
 import { IsInsideAreaComponent } from '../components/IsInsideAreaComponent'
 import { Yard } from './Yard'
 import { GameEventEmitterComponent } from '../components/GameEventEmitterComponent'
@@ -62,7 +62,13 @@ class PatrolState implements State {
 
   enter (): void {
     entityManager.addComponent(new PatrolComponent({ speed: this.speed, patrolAreaEntity: this.patrolAreaEntity }), this.entity)
-    entityManager.addComponent(new CollisionComponent({ targetTag: MainHero.tag, onCollision: (entity: Entity) => { this.handleCollision(entity) } }), this.entity)
+    entityManager.addComponent(
+      new CollisionComponent({
+        targetTag: MainHero.tag,
+        onCollision: (entity: Entity) => { this.handleCollisionWithMainHero(entity) }
+      }),
+      this.entity
+    )
   }
 
   exit (): void {
@@ -70,12 +76,12 @@ class PatrolState implements State {
     entityManager.removeComponentByClassName(PatrolComponent.name, this.entity)
   }
 
-  private handleCollision (collisionEntity: Entity): void {
-    const captureTargetComponent = entityManager.getComponentByClassName(CaptureTargetComponent.name, collisionEntity) as CaptureTargetComponent
-    if (captureTargetComponent.groupSize < captureTargetComponent.maxGroupSize) {
+  private handleCollisionWithMainHero (collisionEntity: Entity): void {
+    const followeeComponent = entityManager.getComponentByClassName(FolloweeComponent.name, collisionEntity) as FolloweeComponent
+    if (followeeComponent.groupSize < followeeComponent.maxGroupSize) {
       const stateComponent = entityManager.getComponentByClassName(StateComponent.name, this.entity) as StateComponent
       stateComponent.transitionToState = new FollowState(this.entity, MainHero.tag, this.speed)
-      captureTargetComponent.groupSize++
+      followeeComponent.groupSize++
     }
   }
 }
@@ -102,9 +108,9 @@ class FollowState implements State {
 
   exit (): void {
     const followComponent = entityManager.getComponentByClassName(FollowComponent.name, this.entity) as FollowComponent
-    const captureTargetComponent = entityManager.getComponentByClassName(CaptureTargetComponent.name, followComponent.targetEntity) as CaptureTargetComponent
     entityManager.removeComponentByClassName(FollowComponent.name, this.entity)
-    captureTargetComponent.groupSize--
+    const followeeComponent = entityManager.getComponentByClassName(FolloweeComponent.name, followComponent.targetEntity) as FolloweeComponent
+    followeeComponent.groupSize--
   }
 
   private handleYardEnter (): void {
