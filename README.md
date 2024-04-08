@@ -21,3 +21,9 @@ Features:
 - If the animal reaches the yard the score counter increased.
 - Spawn generator spawns animals in random time intervals at random positions.
 - Animals have patrol behaviour. During the patrol animals cannot move to the yard without Main Hero.
+
+## Start locally
+```
+npm install
+npm start
+```
