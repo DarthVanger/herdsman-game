@@ -8,6 +8,8 @@ Frameworks: Pixi.js
 
 Patterns:
 - [Entity Component System](https://www.kodeco.com/2806-introduction-to-component-based-architecture-in-games)
+- State
+- Event Emitter (observer / pub-sub)
 
 Features:
 - Player run the application and can see the game field (green area) with Main Hero (red circle).
