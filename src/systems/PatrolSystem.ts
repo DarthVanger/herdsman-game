@@ -1,14 +1,14 @@
 import { PatrolComponent } from '../components/PatrolComponent'
-import { TransformComponent } from '../components/TransformComponent'
+import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
-import { yard } from '../gameObjects/Yard'
 import { getRandomPointInsideBox, hasIntersection } from '../utils/geometry'
 import { computeVelocityVectorToTarget } from '../utils/physics'
 
 export class PatrolSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(PatrolComponent.name)
+
     for (const entity of entities) {
       const patrolComponent = entityManager.getComponentByClassName(PatrolComponent.name, entity) as PatrolComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
@@ -30,21 +30,25 @@ export class PatrolSystem implements System {
       transformComponent.x += patrolComponent.velocityVector.x
       transformComponent.y += patrolComponent.velocityVector.y
 
-      const yardEntities = entityManager.getAllEntitiesByTag(yard.tag)
-      for (const yardEntity of yardEntities) {
-        const yardTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, yardEntity) as TransformComponent
-        if (hasIntersection(transformComponent, yardTransformComponent)) {
-          transformComponent.x -= patrolComponent.velocityVector.x
-          transformComponent.y -= patrolComponent.velocityVector.y
-          this.goToNewDestinationPoint(transformComponent, patrolComponent)
-        }
+      this.preventGoingIntoForbiddenAreas(transformComponent, patrolComponent)
+    }
+  }
+
+  private preventGoingIntoForbiddenAreas (patroolingEntityTransform: Transform, patrolComponent: PatrolComponent): void {
+    const forbiddenAreaEntities = entityManager.getAllEntitiesByTag(patrolComponent.forbiddenAreasTag)
+    for (const forbiddenArea of forbiddenAreaEntities) {
+      const forbiddenAreaTransform = entityManager.getComponentByClassName(TransformComponent.name, forbiddenArea) as TransformComponent
+      if (hasIntersection(patroolingEntityTransform, forbiddenAreaTransform)) {
+        patroolingEntityTransform.x -= patrolComponent.velocityVector.x
+        patroolingEntityTransform.y -= patrolComponent.velocityVector.y
+        this.goToNewDestinationPoint(patroolingEntityTransform, patrolComponent)
       }
     }
   }
 
   private goToNewDestinationPoint (transformComponent: TransformComponent, patrolComponent: PatrolComponent): void {
-    const gameFieldTransform = entityManager.getComponentByClassName(TransformComponent.name, patrolComponent.patrolAreaEntity) as TransformComponent
-    const randomPointOnGameField = getRandomPointInsideBox(transformComponent, gameFieldTransform)
+    const patrolAreaTransform = entityManager.getComponentByClassName(TransformComponent.name, patrolComponent.patrolAreaEntity) as TransformComponent
+    const randomPointOnGameField = getRandomPointInsideBox(transformComponent, patrolAreaTransform)
 
     patrolComponent.currentDestinationPoint = randomPointOnGameField
     patrolComponent.velocityVector = computeVelocityVectorToTarget(transformComponent, randomPointOnGameField, patrolComponent.speed)

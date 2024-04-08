@@ -58,7 +58,11 @@ class PatrolState implements State {
   }
 
   enter (): void {
-    entityManager.addComponent(new PatrolComponent({ speed: this.speed, patrolAreaEntity: this.patrolAreaEntity }), this.entity)
+    entityManager.addComponent(
+      new PatrolComponent({ speed: this.speed, patrolAreaEntity: this.patrolAreaEntity, forbiddenAreasTag: yard.tag }),
+      this.entity
+    )
+
     entityManager.addComponent(
       new CollisionComponent({
         targetTag: mainHero.tag,

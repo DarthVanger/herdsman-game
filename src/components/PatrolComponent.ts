@@ -5,6 +5,7 @@ import { type Entity } from '../ecsFramework/Entity'
 interface PatrolComponentParams {
   speed: number
   patrolAreaEntity: Entity
+  forbiddenAreasTag: string
 }
 
 export class PatrolComponent implements Component {
@@ -12,9 +13,11 @@ export class PatrolComponent implements Component {
   currentDestinationPoint: PointData | undefined
   velocityVector: PointData
   patrolAreaEntity: Entity
+  forbiddenAreasTag: string
 
-  constructor ({ speed, patrolAreaEntity }: PatrolComponentParams) {
+  constructor ({ speed, patrolAreaEntity, forbiddenAreasTag }: PatrolComponentParams) {
     this.speed = speed
     this.patrolAreaEntity = patrolAreaEntity
+    this.forbiddenAreasTag = forbiddenAreasTag
   }
 }
