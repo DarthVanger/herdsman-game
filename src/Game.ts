@@ -38,7 +38,7 @@ export class Game {
     spawner.spawnGameField()
     spawner.spawnYard()
     spawner.spawnScore()
-    spawner.spawnAnimals()
+    spawner.spawnAnimalsWithRandomInterval()
     spawner.spawnMainCharacter()
 
     await Promise.all(this.systems.map(async system => { await system.setup?.() }))

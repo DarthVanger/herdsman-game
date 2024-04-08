@@ -6,6 +6,8 @@ import { pixiApp } from '../pixiApp'
 import { type System } from '../ecsFramework/System'
 
 export class SpriteSystem implements System {
+  private textures: Record<string, Texture>
+
   async setup (): Promise<void> {
     const entities = entityManager.getAllEntitiesByComponentClassName(SpriteComponent.name)
 
@@ -25,11 +27,11 @@ export class SpriteSystem implements System {
       src: spriteComponent.src
     }))
 
-    const textures = await Assets.load<Record<string, Texture>>(assets)
+    this.textures = await Assets.load<Record<string, Texture>>(assets)
 
     for (const entity of entities) {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
-      const texture = textures[spriteComponent.src]
+      const texture = this.textures[spriteComponent.src]
       spriteComponent.sprite.texture = texture
     }
   }
@@ -39,6 +41,12 @@ export class SpriteSystem implements System {
     for (const entity of entities) {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+
+      if (spriteComponent.sprite === undefined) {
+        spriteComponent.sprite = this.createPixiSprite(spriteComponent)
+        pixiApp.stage.addChild(spriteComponent.sprite)
+      }
+
       this.transformSprite(spriteComponent.sprite, transformComponent)
     }
   }
@@ -48,5 +56,16 @@ export class SpriteSystem implements System {
     sprite.y = transformComponent.y
     sprite.width = transformComponent.width
     sprite.height = transformComponent.height
+  }
+
+  private createPixiSprite (spriteComponent: SpriteComponent): Sprite {
+    const sprite = new Sprite()
+    sprite.anchor.set(spriteComponent.anchor.x, spriteComponent.anchor.y)
+
+    // assuming textures where preloaded during setup phase
+    const texture = this.textures[spriteComponent.src]
+    sprite.texture = texture
+
+    return sprite
   }
 }

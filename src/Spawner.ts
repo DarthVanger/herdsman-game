@@ -8,6 +8,8 @@ import { pixiApp } from './pixiApp'
 import { hasIntersection } from './utils/geometry'
 
 class Spawner {
+  animalSpawnInterval: number
+
   spawnGameField (): void {
     new GameField()
   }
@@ -24,8 +26,17 @@ class Spawner {
     new MainHero()
   }
 
-  spawnAnimals (): void {
-    const animalCount = 5 + Math.random() * 20
+  spawnAnimalsWithRandomInterval (): void {
+    this.spawnAnimals()
+    this.animalSpawnInterval = Math.random() * 10 * 1000
+
+    setTimeout(() => {
+      this.spawnAnimalsWithRandomInterval()
+    }, this.animalSpawnInterval)
+  }
+
+  private spawnAnimals (): void {
+    const animalCount = Math.random() * 5
     for (let i = 0; i < animalCount; i++) {
       this.spawnAnimal()
     }
