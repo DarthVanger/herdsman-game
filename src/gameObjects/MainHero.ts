@@ -4,7 +4,7 @@ import mainHeroImage from '../../assets/main-hero.png'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { getGameDimensions, pixiApp } from '../pixiApp'
-import { CaptureTargetComponent } from '../CaptureTargetComponent'
+import { CaptureTargetComponent } from '../components/CaptureTargetComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 
