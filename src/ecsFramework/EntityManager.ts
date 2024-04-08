@@ -3,7 +3,7 @@ import { Entity } from './Entity'
 
 type ComponentsMap = Map<Entity['id'], Component>
 
-export class EntityManager {
+class EntityManager {
   private lowestUnassignedEntityId = 1
   private readonly entities: Entity[] = []
   private readonly componentsByClassName = new Map<string, ComponentsMap>()
