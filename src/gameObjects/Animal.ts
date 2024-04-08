@@ -39,9 +39,6 @@ class Animal implements GameObject {
     const entity = entityManager.createEntity()
     entityManager.addComponent(new TransformComponent(transform), entity)
     entityManager.addComponent(new SpriteComponent({ src: animalImage as string }), entity)
-    // entityManager.addComponent(new CaptureComponent({ targetTag: mainHero.tag, followSpeed: speed }), entity)
-    // entityManager.addComponent(new AnimalComponent(), entity)
-    // entityManager.addComponent(new PatrolComponent({ speed, patrolAreaEntity }), entity)
     entityManager.addComponent(new StateComponent(new PatrolState(entity, patrolAreaEntity, speed)), entity)
     entityManager.addComponent(new GameEventEmitterComponent(), entity)
 
