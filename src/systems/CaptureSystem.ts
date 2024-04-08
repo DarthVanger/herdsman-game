@@ -8,8 +8,6 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
 
 export class CaptureSystem implements System {
-  private readonly groupSize = 5
-
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(CaptureComponent.name)
     for (const entity of entities) {
