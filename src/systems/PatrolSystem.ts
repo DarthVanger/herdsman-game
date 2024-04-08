@@ -1,9 +1,11 @@
+import { AnimalYardComponent } from '../components/AnimalYardComponent'
 import { PatrolComponent } from '../components/PatrolComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
 import { GameField } from '../gameObjects/GameField'
 import { pixiApp } from '../pixiApp'
+import { hasIntersection } from '../utils/geometry'
 import { computeVelocityVectorToTarget } from '../utils/physics'
 
 export class PatrolSystem implements System {
@@ -29,6 +31,16 @@ export class PatrolSystem implements System {
 
       transformComponent.x += patrolComponent.velocityVector.x
       transformComponent.y += patrolComponent.velocityVector.y
+
+      const yardEntities = entityManager.getAllEntitiesByComponentClassName(AnimalYardComponent.name)
+      for (const yardEntity of yardEntities) {
+        const yardTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, yardEntity) as TransformComponent
+        if (hasIntersection(transformComponent, yardTransformComponent)) {
+          transformComponent.x -= patrolComponent.velocityVector.x
+          transformComponent.y -= patrolComponent.velocityVector.y
+          this.goToNewDestinationPoint(transformComponent, patrolComponent)
+        }
+      }
     }
   }
 
