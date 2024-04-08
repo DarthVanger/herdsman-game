@@ -1,4 +1,4 @@
-import { EventListenerComponent } from '../components/EventListenerComponent'
+import { GameEventListenerComponent } from '../components/GameEventListenerComponent'
 import { ScoreComponent } from '../components/ScoreComponent'
 import { ScriptComponent } from '../components/ScriptComponent'
 import { TextComponent } from '../components/TextComponent'
@@ -41,7 +41,7 @@ export class Score implements GameObject {
 
     entityManager.addComponent(new ScoreComponent(), entity)
     entityManager.addComponent(new ScriptComponent(new ScoreScript(entity)), entity)
-    entityManager.addComponent(new EventListenerComponent<never>(
+    entityManager.addComponent(new GameEventListenerComponent<never>(
       Animal.enteredYardEventName, () => {
         Score.handleAnimalYardEnter()
       }),

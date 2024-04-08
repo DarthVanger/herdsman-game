@@ -1,4 +1,4 @@
-export class Event<Payload = never> {
+export class GameEvent<Payload = never> {
   name: string
   payload?: Payload
 
@@ -8,18 +8,18 @@ export class Event<Payload = never> {
   }
 }
 
-export type EventListener<Payload = never> = (payload?: Payload) => void
+export type GameEventListener<Payload = never> = (payload?: Payload) => void
 
-class EventBus {
-  listenersByEventName = new Map<string, Array<EventListener<any>>>()
+class GameEventBus {
+  listenersByEventName = new Map<string, Array<GameEventListener<any>>>()
 
-  emit (event: Event<any>): void {
+  emit (event: GameEvent<any>): void {
     console.log('emit event: ', event)
     const listeners = this.listenersByEventName.get(event.name)
     listeners?.forEach(listener => { listener(event?.payload) })
   }
 
-  addEventListener (eventName: string, listener: EventListener): void {
+  addEventListener (eventName: string, listener: GameEventListener): void {
     let listeners = this.listenersByEventName.get(eventName)
 
     if (listeners === undefined) {
@@ -31,4 +31,4 @@ class EventBus {
   }
 }
 
-export const eventBus = new EventBus()
+export const gameEventBus = new GameEventBus()
