@@ -48,6 +48,5 @@ export class SpriteSystem implements System {
     sprite.y = transformComponent.y
     sprite.width = transformComponent.width
     sprite.height = transformComponent.height
-    sprite.rotation = transformComponent.rotation
   }
 }
