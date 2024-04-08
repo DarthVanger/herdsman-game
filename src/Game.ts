@@ -7,7 +7,6 @@ import { MoveToClickPositionSystem } from './systems/MoveToClickPositionSystem'
 import { CollisionSystem } from './systems/CollisionSystem'
 import { FollowSystem } from './systems/FollowSystem'
 import { TextSystem } from './systems/TextSystem'
-import { ScriptSystem } from './systems/ScriptSystem'
 import { PatrolSystem } from './systems/PatrolSystem'
 import { StateSystem } from './systems/StateSystem'
 import { IsInsideAreaSystem } from './systems/IsInsideAreaSystem'
@@ -25,7 +24,6 @@ export class Game {
 
   async start (): Promise<void> {
     this.systems = [
-      new ScriptSystem(),
       new SpriteSystem(),
       new MoveToClickPositionSystem(),
       new CollisionSystem(),
