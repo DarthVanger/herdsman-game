@@ -1,12 +1,10 @@
 import { GameEventListenerComponent } from '../components/GameEventListenerComponent'
 import { ScoreComponent } from '../components/ScoreComponent'
-import { ScriptComponent } from '../components/ScriptComponent'
 import { TextComponent } from '../components/TextComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type GameObject } from '../ecsFramework/GameObject'
-import { type System } from '../ecsFramework/System'
 import { getGameDimensions } from '../pixiApp'
 import { Animal } from './Animal'
 
@@ -40,7 +38,6 @@ export class Score implements GameObject {
     }), entity)
 
     entityManager.addComponent(new ScoreComponent(), entity)
-    entityManager.addComponent(new ScriptComponent(new ScoreScript(entity)), entity)
     entityManager.addComponent(new GameEventListenerComponent<never>(
       Animal.enteredYardEventName, () => {
         Score.handleAnimalYardEnter()
@@ -60,19 +57,5 @@ export class Score implements GameObject {
       scoreComponent.value++
       textComponent.text = `score: ${scoreComponent.value}`
     }
-  }
-}
-
-class ScoreScript implements System {
-  entity: Entity
-
-  constructor (entity: Entity) {
-    this.entity = entity
-  }
-
-  update (): void {
-    const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, this.entity) as ScoreComponent
-    const textComponent = entityManager.getComponentByClassName(TextComponent.name, this.entity) as TextComponent
-    textComponent.text = `score: ${scoreComponent.value}`
   }
 }
