@@ -3,7 +3,7 @@ import { type GameObject } from '../ecsFramework/GameObject'
 import animalImage from '../../assets/cat.png'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { pixiApp, getGameDimensions } from '../pixiApp'
-import { MainHero } from './MainHero'
+import { mainHero } from './MainHero'
 import { CollisionComponent } from '../components/CollisionComponent'
 import { PatrolComponent } from '../components/PatrolComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
@@ -12,14 +12,14 @@ import { FollowComponent } from '../components/FollowComponent'
 import { type State, StateComponent } from '../components/StateComponent'
 import { FolloweeComponent } from '../components/FolloweeCompoent'
 import { IsInsideAreaComponent } from '../components/IsInsideAreaComponent'
-import { Yard } from './Yard'
+import { yard } from './Yard'
 import { GameEventEmitterComponent } from '../components/GameEventEmitterComponent'
 import { GameEvent } from '../ecsFramework/gameEventBus'
 
-export class Animal implements GameObject {
-  static enteredYardEventName = 'animalEnteredYard'
+class Animal implements GameObject {
+  enteredYardEventName = 'animalEnteredYard'
 
-  static getInitialTransform (): Transform {
+  getInitialTransform (): Transform {
     const height = getGameDimensions().diagonal / 20
     const width = height / 1.8
     return {
@@ -31,15 +31,15 @@ export class Animal implements GameObject {
     }
   }
 
-  static create (transform: Transform, patrolAreaEntity: Entity): Entity {
+  create (transform: Transform, patrolAreaEntity: Entity): Entity {
     const screenDiagonal = Math.hypot(pixiApp.renderer.width, pixiApp.renderer.height)
-    const mainHeroSpeed = MainHero.getSpeed(screenDiagonal)
+    const mainHeroSpeed = mainHero.getSpeed(screenDiagonal)
     const speed = mainHeroSpeed / 2 + Math.random() * mainHeroSpeed / 2
 
     const entity = entityManager.createEntity()
     entityManager.addComponent(new TransformComponent(transform), entity)
     entityManager.addComponent(new SpriteComponent({ src: animalImage as string }), entity)
-    // entityManager.addComponent(new CaptureComponent({ targetTag: MainHero.tag, followSpeed: speed }), entity)
+    // entityManager.addComponent(new CaptureComponent({ targetTag: mainHero.tag, followSpeed: speed }), entity)
     // entityManager.addComponent(new AnimalComponent(), entity)
     // entityManager.addComponent(new PatrolComponent({ speed, patrolAreaEntity }), entity)
     entityManager.addComponent(new StateComponent(new PatrolState(entity, patrolAreaEntity, speed)), entity)
@@ -64,7 +64,7 @@ class PatrolState implements State {
     entityManager.addComponent(new PatrolComponent({ speed: this.speed, patrolAreaEntity: this.patrolAreaEntity }), this.entity)
     entityManager.addComponent(
       new CollisionComponent({
-        targetTag: MainHero.tag,
+        targetTag: mainHero.tag,
         onCollision: (entity: Entity) => { this.handleCollisionWithMainHero(entity) }
       }),
       this.entity
@@ -80,7 +80,7 @@ class PatrolState implements State {
     const followeeComponent = entityManager.getComponentByClassName(FolloweeComponent.name, collisionEntity) as FolloweeComponent
     if (followeeComponent.groupSize < followeeComponent.maxGroupSize) {
       const stateComponent = entityManager.getComponentByClassName(StateComponent.name, this.entity) as StateComponent
-      stateComponent.transitionToState = new FollowState(this.entity, MainHero.tag, this.speed)
+      stateComponent.transitionToState = new FollowState(this.entity, mainHero.tag, this.speed)
       followeeComponent.groupSize++
     }
   }
@@ -98,7 +98,7 @@ class FollowState implements State {
   }
 
   enter (): void {
-    entityManager.addComponent(new IsInsideAreaComponent({ targetTag: Yard.tag, onEnter: () => { this.handleYardEnter() } }), this.entity)
+    entityManager.addComponent(new IsInsideAreaComponent({ targetTag: yard.tag, onEnter: () => { this.handleYardEnter() } }), this.entity)
 
     const targetEntities = entityManager.getAllEntitiesByTag(this.targetTag)
     for (const targetEntity of targetEntities) {
@@ -128,8 +128,10 @@ class InTheYardState implements State {
 
   enter (): void {
     const gameEventEmitterComponent = entityManager.getComponentByClassName(GameEventEmitterComponent.name, this.entity) as GameEventEmitterComponent
-    gameEventEmitterComponent.eventQueue.push(new GameEvent(Animal.enteredYardEventName))
+    gameEventEmitterComponent.eventQueue.push(new GameEvent(animal.enteredYardEventName))
 
     entityManager.removeComponentByClassName(IsInsideAreaComponent.name, this.entity)
   }
 }
+
+export const animal = new Animal()

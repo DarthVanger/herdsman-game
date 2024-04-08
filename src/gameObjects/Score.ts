@@ -6,11 +6,12 @@ import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type GameObject } from '../ecsFramework/GameObject'
 import { getGameDimensions } from '../pixiApp'
-import { Animal } from './Animal'
+import { animal } from './Animal'
 
-export class Score implements GameObject {
-  static getInitialTransform (): Transform {
-    const fontSize = Score.getFontSize()
+class Score implements GameObject {
+  getInitialTransform (): Transform {
+    const fontSize = this.getFontSize()
+
     return {
       x: getGameDimensions().width / 2,
       y: fontSize / 2,
@@ -20,27 +21,27 @@ export class Score implements GameObject {
     }
   }
 
-  static getFontSize (): number {
+  getFontSize (): number {
     return getGameDimensions().height / 36
   }
 
-  static create (): Entity {
+  create (): Entity {
     const entity = entityManager.createEntity()
 
-    entityManager.addComponent(new TransformComponent(Score.getInitialTransform()), entity)
+    entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
 
     entityManager.addComponent(new TextComponent({
       text: 'score: 0',
       style: {
-        fontSize: Score.getFontSize(),
+        fontSize: this.getFontSize(),
         fill: 0xffffff
       }
     }), entity)
 
     entityManager.addComponent(new ScoreComponent(), entity)
     entityManager.addComponent(new GameEventListenerComponent<never>(
-      Animal.enteredYardEventName, () => {
-        Score.handleAnimalYardEnter()
+      animal.enteredYardEventName, () => {
+        this.handleAnimalYardEnter()
       }),
     entity
     )
@@ -48,7 +49,7 @@ export class Score implements GameObject {
     return entity
   }
 
-  private static handleAnimalYardEnter (): void {
+  private handleAnimalYardEnter (): void {
     const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
     for (const scoreEntity of scoreEntities) {
       const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, scoreEntity) as ScoreComponent
@@ -59,3 +60,5 @@ export class Score implements GameObject {
     }
   }
 }
+
+export const score = new Score()

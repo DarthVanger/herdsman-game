@@ -1,9 +1,9 @@
 import { type Entity } from './ecsFramework/Entity'
-import { Animal } from './gameObjects/Animal'
-import { GameField } from './gameObjects/GameField'
-import { MainHero } from './gameObjects/MainHero'
-import { Score } from './gameObjects/Score'
-import { Yard } from './gameObjects/Yard'
+import { animal } from './gameObjects/Animal'
+import { gameField } from './gameObjects/GameField'
+import { mainHero } from './gameObjects/MainHero'
+import { score } from './gameObjects/Score'
+import { yard } from './gameObjects/Yard'
 import { getRandomPointInsideBox, hasIntersection } from './utils/geometry'
 
 class Spawner {
@@ -11,19 +11,19 @@ class Spawner {
   gameFieldEntity: Entity
 
   spawnGameField (): void {
-    this.gameFieldEntity = GameField.create()
+    this.gameFieldEntity = gameField.create()
   }
 
   spawnYard (): void {
-    Yard.create()
+    yard.create()
   }
 
   spawnScore (): void {
-    Score.create()
+    score.create()
   }
 
   spawnMainCharacter (): void {
-    MainHero.create(this.gameFieldEntity)
+    mainHero.create(this.gameFieldEntity)
   }
 
   spawnAnimalsWithRandomInterval (): void {
@@ -43,20 +43,20 @@ class Spawner {
   }
 
   private spawnAnimal (): void {
-    const initialAnimalTransform = Animal.getInitialTransform()
-    const initialGameFieldTransform = GameField.getInitialTransform()
+    const initialAnimalTransform = animal.getInitialTransform()
+    const initialGameFieldTransform = gameField.getInitialTransform()
     const randomPointOnGameField = getRandomPointInsideBox(initialAnimalTransform, initialGameFieldTransform)
     const animalTransform = {
       ...initialAnimalTransform,
       ...randomPointOnGameField
     }
 
-    if (hasIntersection(animalTransform, Yard.getInitialTransform())) {
+    if (hasIntersection(animalTransform, yard.getInitialTransform())) {
       this.spawnAnimal()
       return
     }
 
-    Animal.create(animalTransform, this.gameFieldEntity)
+    animal.create(animalTransform, this.gameFieldEntity)
   }
 }
 

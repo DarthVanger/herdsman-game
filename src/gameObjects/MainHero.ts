@@ -9,9 +9,9 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 
 export class MainHero implements GameObject {
-  static tag = 'MainHero'
+  tag = 'MainHero'
 
-  static getInitialTransform (): Transform {
+  getInitialTransform (): Transform {
     const width = getGameDimensions().diagonal / 16
     const height = width * 1.3
 
@@ -24,17 +24,17 @@ export class MainHero implements GameObject {
     }
   }
 
-  static getSpeed (screenDiagonal: number): number {
+  getSpeed (screenDiagonal: number): number {
     return screenDiagonal / 500
   }
 
-  static create (clickableAreaEntity: Entity): Entity {
+  create (clickableAreaEntity: Entity): Entity {
     const screenDiagonal = Math.hypot(pixiApp.renderer.width, pixiApp.renderer.height)
-    const speed = MainHero.getSpeed(screenDiagonal)
+    const speed = this.getSpeed(screenDiagonal)
 
     const entity = entityManager.createEntity()
-    entityManager.setEntityTag(MainHero.tag, entity)
-    entityManager.addComponent(new TransformComponent(MainHero.getInitialTransform()), entity)
+    entityManager.setEntityTag(this.tag, entity)
+    entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
     entityManager.addComponent(new SpriteComponent({ src: mainHeroImage as string }), entity)
     entityManager.addComponent(new MoveToClickPositionComponent({
       clickableAreaEntity,
@@ -45,3 +45,5 @@ export class MainHero implements GameObject {
     return entity
   }
 }
+
+export const mainHero = new MainHero()

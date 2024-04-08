@@ -2,7 +2,7 @@ import { PatrolComponent } from '../components/PatrolComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
-import { Yard } from '../gameObjects/Yard'
+import { yard } from '../gameObjects/Yard'
 import { getRandomPointInsideBox, hasIntersection } from '../utils/geometry'
 import { computeVelocityVectorToTarget } from '../utils/physics'
 
@@ -30,7 +30,7 @@ export class PatrolSystem implements System {
       transformComponent.x += patrolComponent.velocityVector.x
       transformComponent.y += patrolComponent.velocityVector.y
 
-      const yardEntities = entityManager.getAllEntitiesByTag(Yard.tag)
+      const yardEntities = entityManager.getAllEntitiesByTag(yard.tag)
       for (const yardEntity of yardEntities) {
         const yardTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, yardEntity) as TransformComponent
         if (hasIntersection(transformComponent, yardTransformComponent)) {

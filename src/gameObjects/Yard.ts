@@ -6,10 +6,10 @@ import { getGameDimensions } from '../pixiApp'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 
-export class Yard implements GameObject {
-  static tag: 'Yard'
+class Yard implements GameObject {
+  tag = 'Yard'
 
-  static getInitialTransform (): Transform {
+  getInitialTransform (): Transform {
     const width = getGameDimensions().width / 4
     const height = width
     return {
@@ -21,12 +21,14 @@ export class Yard implements GameObject {
     }
   }
 
-  static create (): Entity {
+  create (): Entity {
     const entity = entityManager.createEntity()
-    entityManager.setEntityTag(Yard.tag, entity)
-    entityManager.addComponent(new TransformComponent(Yard.getInitialTransform()), entity)
+    entityManager.setEntityTag(this.tag, entity)
+    entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
     entityManager.addComponent(new SpriteComponent({ src: yardImage as string }), entity)
 
     return entity
   }
 }
+
+export const yard = new Yard()
