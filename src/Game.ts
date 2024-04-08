@@ -1,18 +1,17 @@
 import { Text, type Ticker } from 'pixi.js'
 import { pixiApp } from './pixiApp'
-import { SpriteSystem } from './systems/SpriteSystem'
 import { spawner } from './Spawner'
 import { type System } from './ecsFramework/System'
 import { MoveToClickPositionSystem } from './systems/MoveToClickPositionSystem'
 import { CollisionSystem } from './systems/CollisionSystem'
 import { FollowSystem } from './systems/FollowSystem'
-import { TextSystem } from './systems/TextSystem'
 import { PatrolSystem } from './systems/PatrolSystem'
 import { StateSystem } from './systems/StateSystem'
 import { IsInsideAreaSystem } from './systems/IsInsideAreaSystem'
 import { GameEventListenerSystem } from './systems/GameEventListenerSystem'
 import { GameEventEmitterSystem } from './systems/GameEventEmitterSystem'
 import { gameAssets } from './GameAssets'
+import { RenderSystem } from './systems/RenderSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -25,16 +24,15 @@ export class Game {
 
   async start (): Promise<void> {
     this.systems = [
-      new SpriteSystem(),
+      new RenderSystem(),
+      new GameEventListenerSystem(),
+      new GameEventEmitterSystem(),
       new MoveToClickPositionSystem(),
       new CollisionSystem(),
       new FollowSystem(),
-      new TextSystem(),
       new PatrolSystem(),
       new StateSystem(),
-      new IsInsideAreaSystem(),
-      new GameEventListenerSystem(),
-      new GameEventEmitterSystem()
+      new IsInsideAreaSystem()
     ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })

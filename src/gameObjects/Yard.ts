@@ -1,10 +1,11 @@
-import { SpriteComponent } from '../components/SpriteComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { type GameObject } from '../ecsFramework/GameObject'
 import { getGameDimensions } from '../pixiApp'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 import { AssetAlias } from '../GameAssets'
+import { RenderComponent } from '../components/RenderComponent'
+import { Sprite } from 'pixi.js'
 
 class Yard implements GameObject {
   tag = 'Yard'
@@ -25,7 +26,7 @@ class Yard implements GameObject {
     const entity = entityManager.createEntity()
     entityManager.setEntityTag(this.tag, entity)
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
-    entityManager.addComponent(new SpriteComponent(AssetAlias.YARD), entity)
+    entityManager.addComponent(new RenderComponent(Sprite.from(AssetAlias.YARD)), entity)
 
     return entity
   }

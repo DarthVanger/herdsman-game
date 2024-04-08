@@ -1,4 +1,3 @@
-import { SpriteComponent } from '../../components/SpriteComponent'
 import { type GameObject } from '../../ecsFramework/GameObject'
 import { type Transform, TransformComponent } from '../../components/TransformComponent'
 import { pixiApp, getGameDimensions } from '../../pixiApp'
@@ -9,6 +8,8 @@ import { StateComponent } from '../../components/StateComponent'
 import { GameEventEmitterComponent } from '../../components/GameEventEmitterComponent'
 import { PatrolState } from './states/PatrolState'
 import { AssetAlias } from '../../GameAssets'
+import { RenderComponent } from '../../components/RenderComponent'
+import { Sprite } from 'pixi.js'
 
 class Animal implements GameObject {
   enteredYardEventName = 'animalEnteredYard'
@@ -32,7 +33,7 @@ class Animal implements GameObject {
 
     const entity = entityManager.createEntity()
     entityManager.addComponent(new TransformComponent(transform), entity)
-    entityManager.addComponent(new SpriteComponent(AssetAlias.ANIMAL), entity)
+    entityManager.addComponent(new RenderComponent(Sprite.from(AssetAlias.ANIMAL)), entity)
     entityManager.addComponent(new StateComponent(new PatrolState(entity, patrolAreaEntity, speed)), entity)
     entityManager.addComponent(new GameEventEmitterComponent(), entity)
 

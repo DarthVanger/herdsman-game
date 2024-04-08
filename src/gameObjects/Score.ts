@@ -1,6 +1,7 @@
+import { CanvasTextMetrics, Text, TextStyle } from 'pixi.js'
 import { GameEventListenerComponent } from '../components/GameEventListenerComponent'
+import { RenderComponent } from '../components/RenderComponent'
 import { ScoreComponent } from '../components/ScoreComponent'
-import { TextComponent } from '../components/TextComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
@@ -12,13 +13,27 @@ class Score implements GameObject {
   getInitialTransform (): Transform {
     const fontSize = this.getFontSize()
 
+    const width = CanvasTextMetrics.measureText(this.getInitialText(), this.getTextStyle()).width
+
     return {
-      x: getGameDimensions().width / 2,
+      x: getGameDimensions().width / 2 - width / 2,
       y: fontSize / 2,
       height: fontSize,
-      width: 0,
-      anchor: { x: 0.5, y: 0 }
+      width,
+      anchor: { x: 0, y: 0 }
     }
+  }
+
+  getInitialText (): string {
+    return 'score: 0'
+  }
+
+  getTextStyle (): TextStyle {
+    return new TextStyle({
+      fontSize: this.getFontSize(),
+      fill: 0xffffff,
+      align: 'center'
+    })
   }
 
   getFontSize (): number {
@@ -30,13 +45,12 @@ class Score implements GameObject {
 
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
 
-    entityManager.addComponent(new TextComponent({
-      text: 'score: 0',
-      style: {
-        fontSize: this.getFontSize(),
-        fill: 0xffffff
-      }
-    }), entity)
+    const pixiText = new Text({
+      text: this.getInitialText(),
+      style: this.getTextStyle()
+    })
+
+    entityManager.addComponent(new RenderComponent<Text>(pixiText), entity)
 
     entityManager.addComponent(new ScoreComponent(), entity)
     entityManager.addComponent(new GameEventListenerComponent<never>(
@@ -53,10 +67,10 @@ class Score implements GameObject {
     const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
     for (const scoreEntity of scoreEntities) {
       const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, scoreEntity) as ScoreComponent
-      const textComponent = entityManager.getComponentByClassName(TextComponent.name, scoreEntity) as TextComponent
+      const renderComponent = entityManager.getComponentByClassName(RenderComponent.name, scoreEntity) as RenderComponent<Text>
 
       scoreComponent.value++
-      textComponent.text = `score: ${scoreComponent.value}`
+      renderComponent.pixiDisplayObject.text = `score: ${scoreComponent.value}`
     }
   }
 }

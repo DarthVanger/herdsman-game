@@ -3,8 +3,8 @@ import { MoveToClickPositionComponent } from '../components/MoveToClickPositionC
 import { entityManager } from '../ecsFramework/EntityManager'
 import { TransformComponent } from '../components/TransformComponent'
 import { computeVelocityVectorToTarget } from '../utils/physics'
-import { SpriteComponent } from '../components/SpriteComponent'
 import { type PointData, type FederatedPointerEvent } from 'pixi.js'
+import { RenderComponent } from '../components/RenderComponent'
 
 export class MoveToClickPositionSystem implements System {
   setup (): void {
@@ -13,14 +13,14 @@ export class MoveToClickPositionSystem implements System {
       const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
 
       const clickableAreaComponent = entityManager.getComponentByClassName(
-        SpriteComponent.name,
+        RenderComponent.name,
         moveToClickPositionComponent.clickableAreaEntity
-      ) as SpriteComponent
+      ) as RenderComponent
 
-      const pixiSprite = clickableAreaComponent.pixiSprite
-      pixiSprite.eventMode = 'static'
-      pixiSprite.cursor = 'pointer'
-      pixiSprite.on('pointerdown', event => { this.handlePointerDown(event) })
+      const pixiDisplayObject = clickableAreaComponent.pixiDisplayObject
+      pixiDisplayObject.eventMode = 'static'
+      pixiDisplayObject.cursor = 'pointer'
+      pixiDisplayObject.on('pointerdown', event => { this.handlePointerDown(event) })
     }
   }
 
