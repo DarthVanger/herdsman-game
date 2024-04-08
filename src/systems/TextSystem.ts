@@ -7,33 +7,37 @@ import { pixiApp } from '../pixiApp'
 
 export class TextSystem implements System {
   setup (): void {
-    const entities = entityManager.getAllEntitiesByComponentClassName(TextComponent.name)
-    for (const entity of entities) {
-      const textComponent = entityManager.getComponentByClassName(TextComponent.name, entity) as TextComponent
-      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
-
-      textComponent.pixiText = new Text({
-        text: textComponent.text,
-        style: textComponent.style
-      })
-
-      pixiApp.stage.addChild(textComponent.pixiText)
-
-      this.transformText(textComponent, transformComponent)
-    }
+    this.createOrUpdateTexts()
   }
 
   update (): void {
+    this.createOrUpdateTexts()
+  }
+
+  private createOrUpdateTexts (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(TextComponent.name)
+
     for (const entity of entities) {
       const textComponent = entityManager.getComponentByClassName(TextComponent.name, entity) as TextComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+
+      if (textComponent.pixiText === undefined) {
+        textComponent.pixiText = this.createPixiText(textComponent)
+        pixiApp.stage.addChild(textComponent.pixiText)
+      }
 
       textComponent.pixiText.text = textComponent.text
       textComponent.pixiText.style = textComponent.style
 
       this.transformText(textComponent, transformComponent)
     }
+  }
+
+  private createPixiText (textComponent: TextComponent): Text {
+    return new Text({
+      text: textComponent.text,
+      style: textComponent.style
+    })
   }
 
   private transformText (textComponent: TextComponent, transformComponent: TransformComponent): void {
