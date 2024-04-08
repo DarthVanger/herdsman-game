@@ -9,6 +9,7 @@ import { FollowSystem } from './systems/FollowSystem'
 import { AnimalYardSystem } from './systems/AnimalYardSystem'
 import { TextSystem } from './systems/TextSystem'
 import { ScriptSystem } from './systems/ScriptSystem'
+import { PatrolSystem } from './systems/PatrolSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -21,13 +22,14 @@ export class Game {
 
   async start (): Promise<void> {
     this.systems = [
+      new ScriptSystem(),
       new SpriteSystem(),
       new MoveToClickPositionSystem(),
       new CaptureSystem(),
       new FollowSystem(),
       new AnimalYardSystem(),
       new TextSystem(),
-      new ScriptSystem()
+      new PatrolSystem()
     ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })

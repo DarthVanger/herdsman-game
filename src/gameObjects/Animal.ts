@@ -7,6 +7,7 @@ import { type PointData } from 'pixi.js'
 import { MainHero } from './MainHero'
 import { CaptureComponent } from '../components/CaptureComponent'
 import { AnimalComponent } from '../components/AnimalComponent'
+import { PatrolComponent } from '../components/PatrolComponent'
 
 export class Animal extends GameObject {
   constructor ({ x, y }: PointData) {
@@ -15,10 +16,11 @@ export class Animal extends GameObject {
     const height = screenDiagonal / 20
     const width = height / 1.8
     const mainHeroSpeed = MainHero.getSpeed(screenDiagonal)
-    const followSpeed = mainHeroSpeed / 2 + Math.random() * mainHeroSpeed / 2
+    const speed = mainHeroSpeed / 2 + Math.random() * mainHeroSpeed / 2
     this.addComponent(new TransformComponent({ x, y, width, height, anchor: { x: 0.5, y: 0.5 } }))
     this.addComponent(new SpriteComponent({ src: animalImage as string, anchor: { x: 0.5, y: 0.5 } }))
-    this.addComponent(new CaptureComponent({ targetTag: MainHero.tag, followSpeed }))
+    this.addComponent(new CaptureComponent({ targetTag: MainHero.tag, followSpeed: speed }))
     this.addComponent(new AnimalComponent())
+    this.addComponent(new PatrolComponent({ speed }))
   }
 }
