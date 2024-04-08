@@ -14,8 +14,12 @@ import { CaptureTargetComponent } from '../components/CaptureTargetComponent'
 import { ScoreComponent } from '../components/ScoreComponent'
 import { IsInsideAreaComponent } from '../components/IsInsideAreaComponent'
 import { Yard } from './Yard'
+import { EventEmitterComponent } from '../components/EventEmitterComponent'
+import { Event } from '../utils/eventBus'
 
 export class Animal implements GameObject {
+  static enteredYardEventName = 'animalEnteredYard'
+
   static getInitialTransform (): Transform {
     const height = getGameDimensions().diagonal / 20
     const width = height / 1.8
@@ -40,6 +44,7 @@ export class Animal implements GameObject {
     // entityManager.addComponent(new AnimalComponent(), entity)
     // entityManager.addComponent(new PatrolComponent({ speed, patrolAreaEntity }), entity)
     entityManager.addComponent(new StateComponent(new PatrolState(entity, patrolAreaEntity, speed)), entity)
+    entityManager.addComponent(new EventEmitterComponent(), entity)
 
     return entity
   }
@@ -118,6 +123,8 @@ class InTheYardState implements State {
 
   enter (): void {
     entityManager.removeComponentByClassName(IsInsideAreaComponent.name, this.entity)
+    const eventEmitterComponent = entityManager.getComponentByClassName(EventEmitterComponent.name, this.entity) as EventEmitterComponent
+    eventEmitterComponent.eventQueue.push(new Event(Animal.enteredYardEventName))
 
     const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
     for (const scoreEntity of scoreEntities) {

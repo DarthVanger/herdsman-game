@@ -11,6 +11,8 @@ import { ScriptSystem } from './systems/ScriptSystem'
 import { PatrolSystem } from './systems/PatrolSystem'
 import { StateSystem } from './systems/StateSystem'
 import { IsInsideAreaSystem } from './systems/IsInsideAreaSystem'
+import { EventListenerSystem } from './systems/EventListenerSystem'
+import { EventEmitterSystem } from './systems/EventEmitterSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -31,7 +33,9 @@ export class Game {
       new TextSystem(),
       new PatrolSystem(),
       new StateSystem(),
-      new IsInsideAreaSystem()
+      new IsInsideAreaSystem(),
+      new EventListenerSystem(),
+      new EventEmitterSystem()
     ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })

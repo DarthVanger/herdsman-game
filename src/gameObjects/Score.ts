@@ -1,3 +1,4 @@
+import { EventListenerComponent } from '../components/EventListenerComponent'
 import { ScoreComponent } from '../components/ScoreComponent'
 import { ScriptComponent } from '../components/ScriptComponent'
 import { TextComponent } from '../components/TextComponent'
@@ -7,6 +8,7 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { type GameObject } from '../ecsFramework/GameObject'
 import { type System } from '../ecsFramework/System'
 import { getGameDimensions } from '../pixiApp'
+import { Animal } from './Animal'
 
 export class Score implements GameObject {
   static getInitialTransform (): Transform {
@@ -39,8 +41,25 @@ export class Score implements GameObject {
 
     entityManager.addComponent(new ScoreComponent(), entity)
     entityManager.addComponent(new ScriptComponent(new ScoreScript(entity)), entity)
+    entityManager.addComponent(new EventListenerComponent<never>(
+      Animal.enteredYardEventName, () => {
+        Score.handleAnimalYardEnter()
+      }),
+    entity
+    )
 
     return entity
+  }
+
+  private static handleAnimalYardEnter (): void {
+    const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
+    for (const scoreEntity of scoreEntities) {
+      const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, scoreEntity) as ScoreComponent
+      const textComponent = entityManager.getComponentByClassName(TextComponent.name, scoreEntity) as TextComponent
+
+      scoreComponent.value++
+      textComponent.text = `score: ${scoreComponent.value}`
+    }
   }
 }
 
