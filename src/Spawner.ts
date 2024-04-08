@@ -1,5 +1,5 @@
 import { type Entity } from './ecsFramework/Entity'
-import { animal } from './gameObjects/Animal'
+import { animal } from './gameObjects/Animal/Animal'
 import { gameField } from './gameObjects/GameField'
 import { mainHero } from './gameObjects/MainHero'
 import { score } from './gameObjects/Score'

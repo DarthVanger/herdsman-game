@@ -6,7 +6,7 @@ import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type GameObject } from '../ecsFramework/GameObject'
 import { getGameDimensions } from '../pixiApp'
-import { animal } from './Animal'
+import { animal } from './Animal/Animal'
 
 class Score implements GameObject {
   getInitialTransform (): Transform {
