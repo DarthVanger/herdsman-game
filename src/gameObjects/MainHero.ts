@@ -1,12 +1,12 @@
 import { SpriteComponent } from '../components/SpriteComponent'
 import { type GameObject } from '../ecsFramework/GameObject'
-import mainHeroImage from '../../assets/main-hero.png'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { getGameDimensions, pixiApp } from '../pixiApp'
 import { FolloweeComponent } from '../components/FolloweeCompoent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
+import { AssetAlias } from '../GameAssets'
 
 export class MainHero implements GameObject {
   tag = 'MainHero'
@@ -35,7 +35,7 @@ export class MainHero implements GameObject {
     const entity = entityManager.createEntity()
     entityManager.setEntityTag(this.tag, entity)
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
-    entityManager.addComponent(new SpriteComponent({ src: mainHeroImage as string }), entity)
+    entityManager.addComponent(new SpriteComponent(AssetAlias.MAIN_HERO), entity)
     entityManager.addComponent(new MoveToClickPositionComponent({
       clickableAreaEntity,
       speed

@@ -17,7 +17,7 @@ export class MoveToClickPositionSystem implements System {
         moveToClickPositionComponent.clickableAreaEntity
       ) as SpriteComponent
 
-      const pixiSprite = clickableAreaComponent.sprite
+      const pixiSprite = clickableAreaComponent.pixiSprite
       pixiSprite.eventMode = 'static'
       pixiSprite.cursor = 'pointer'
       pixiSprite.on('pointerdown', event => { this.handlePointerDown(event) })

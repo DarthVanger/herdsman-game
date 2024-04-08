@@ -1,15 +1,12 @@
 import { type Sprite } from 'pixi.js'
 import { type Component } from '../ecsFramework/Component'
-
-interface SpriteComponentParams {
-  src: string
-}
+import { type AssetAlias } from '../GameAssets'
 
 export class SpriteComponent implements Component {
-  src: string
-  sprite: Sprite
+  assetAlias: AssetAlias
+  pixiSprite: Sprite
 
-  constructor ({ src }: SpriteComponentParams) {
-    this.src = src
+  constructor (assetAlias: AssetAlias) {
+    this.assetAlias = assetAlias
   }
 }
