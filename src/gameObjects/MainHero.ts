@@ -10,16 +10,22 @@ import { GameField } from './GameField'
 export class MainHero extends GameObject {
   static tag = 'MainHero'
 
+  static getSpeed (screenDiagonal: number): number {
+    return screenDiagonal / 500
+  }
+
   constructor () {
     super()
+    const screenDiagonal = Math.hypot(pixiApp.renderer.width, pixiApp.renderer.height)
     const x = pixiApp.renderer.width / 2
     const y = pixiApp.renderer.height / 2
-    const width = pixiApp.renderer.width / 8
+    const width = screenDiagonal / 16
     const height = width * 1.3
+    const speed = MainHero.getSpeed(screenDiagonal)
     this.setTag(MainHero.tag)
     this.addComponent(new TransformComponent({ x, y, width, height }))
     this.addComponent(new SpriteComponent({ src: mainHeroImage as string, anchor: { x: 0.5, y: 0.5 } }))
-    this.addComponent(new MoveToClickPositionComponent({ clickableAreaTag: GameField.tag }))
+    this.addComponent(new MoveToClickPositionComponent({ clickableAreaTag: GameField.tag, speed }))
     this.addComponent(new CaptureTargetComponent())
   }
 }
