@@ -28,7 +28,7 @@ export class Animal extends GameObject {
     const mainHeroSpeed = MainHero.getSpeed(screenDiagonal)
     const speed = mainHeroSpeed / 2 + Math.random() * mainHeroSpeed / 2
     this.addComponent(new TransformComponent({ x, y, width, height, anchor: Animal.anchor }))
-    this.addComponent(new SpriteComponent({ src: animalImage as string, anchor: { x: 0.5, y: 0.5 } }))
+    this.addComponent(new SpriteComponent({ src: animalImage as string }))
     this.addComponent(new CaptureComponent({ targetTag: MainHero.tag, followSpeed: speed }))
     this.addComponent(new AnimalComponent())
     this.addComponent(new PatrolComponent({ speed }))

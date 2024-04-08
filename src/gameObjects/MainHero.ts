@@ -23,8 +23,8 @@ export class MainHero extends GameObject {
     const height = width * 1.3
     const speed = MainHero.getSpeed(screenDiagonal)
     this.setTag(MainHero.tag)
-    this.addComponent(new TransformComponent({ x, y, width, height }))
-    this.addComponent(new SpriteComponent({ src: mainHeroImage as string, anchor: { x: 0.5, y: 0.5 } }))
+    this.addComponent(new TransformComponent({ x, y, width, height, anchor: { x: 0.5, y: 0.5 } }))
+    this.addComponent(new SpriteComponent({ src: mainHeroImage as string }))
     this.addComponent(new MoveToClickPositionComponent({ clickableAreaTag: GameField.tag, speed }))
     this.addComponent(new CaptureTargetComponent())
   }

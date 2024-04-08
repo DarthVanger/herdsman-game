@@ -15,7 +15,6 @@ export class SpriteSystem implements System {
       const spriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, entity) as SpriteComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
       spriteComponent.sprite = new Sprite()
-      spriteComponent.sprite.anchor.set(spriteComponent.anchor.x, spriteComponent.anchor.y)
       this.transformSprite(spriteComponent.sprite, transformComponent)
 
       pixiApp.stage.addChild(spriteComponent.sprite)
@@ -56,11 +55,12 @@ export class SpriteSystem implements System {
     sprite.y = transformComponent.y
     sprite.width = transformComponent.width
     sprite.height = transformComponent.height
+    sprite.anchor.x = transformComponent.anchor.x
+    sprite.anchor.y = transformComponent.anchor.y
   }
 
   private createPixiSprite (spriteComponent: SpriteComponent): Sprite {
     const sprite = new Sprite()
-    sprite.anchor.set(spriteComponent.anchor.x, spriteComponent.anchor.y)
 
     // assuming textures where preloaded during setup phase
     const texture = this.textures[spriteComponent.src]
