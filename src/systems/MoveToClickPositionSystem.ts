@@ -45,7 +45,7 @@ export class MoveToClickPositionSystem implements System {
     }
   }
 
-  handlePointerDown (event: FederatedPointerEvent): void {
+  private handlePointerDown (event: FederatedPointerEvent): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
       const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
@@ -59,7 +59,7 @@ export class MoveToClickPositionSystem implements System {
     }
   }
 
-  computeDistanceToDestination (transformComponent: TransformComponent, destinationPoint: PointData): number {
+  private computeDistanceToDestination (transformComponent: TransformComponent, destinationPoint: PointData): number {
     return Math.hypot(destinationPoint.x - transformComponent.x, destinationPoint.y - transformComponent.y)
   }
 }

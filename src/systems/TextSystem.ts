@@ -36,7 +36,7 @@ export class TextSystem implements System {
     }
   }
 
-  transformText (textComponent: TextComponent, transformComponent: TransformComponent): void {
+  private transformText (textComponent: TextComponent, transformComponent: TransformComponent): void {
     textComponent.pixiText.anchor = transformComponent.anchor
     textComponent.pixiText.x = transformComponent.x
     textComponent.pixiText.y = transformComponent.y

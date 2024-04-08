@@ -50,7 +50,7 @@ export class SpriteSystem implements System {
     }
   }
 
-  transformSprite (sprite: Sprite, transformComponent: TransformComponent): void {
+  private transformSprite (sprite: Sprite, transformComponent: TransformComponent): void {
     sprite.x = transformComponent.x
     sprite.y = transformComponent.y
     sprite.width = transformComponent.width
