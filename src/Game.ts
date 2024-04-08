@@ -4,12 +4,13 @@ import { SpriteSystem } from './systems/SpriteSystem'
 import { spawner } from './Spawner'
 import { type System } from './ecsFramework/System'
 import { MoveToClickPositionSystem } from './systems/MoveToClickPositionSystem'
-import { CaptureSystem } from './systems/CaptureSystem'
+import { CollisionSystem } from './systems/CollisionSystem'
 import { FollowSystem } from './systems/FollowSystem'
-import { AnimalYardSystem } from './systems/AnimalYardSystem'
 import { TextSystem } from './systems/TextSystem'
 import { ScriptSystem } from './systems/ScriptSystem'
 import { PatrolSystem } from './systems/PatrolSystem'
+import { StateSystem } from './systems/StateSystem'
+import { IsInsideAreaSystem } from './systems/IsInsideAreaSystem'
 
 export class Game {
   htmlElement: HTMLElement
@@ -25,11 +26,12 @@ export class Game {
       new ScriptSystem(),
       new SpriteSystem(),
       new MoveToClickPositionSystem(),
-      new CaptureSystem(),
+      new CollisionSystem(),
       new FollowSystem(),
-      new AnimalYardSystem(),
       new TextSystem(),
-      new PatrolSystem()
+      new PatrolSystem(),
+      new StateSystem(),
+      new IsInsideAreaSystem()
     ]
 
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })

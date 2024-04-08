@@ -2,12 +2,13 @@ import { SpriteComponent } from '../components/SpriteComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { type GameObject } from '../ecsFramework/GameObject'
 import yardImage from '../../assets/yard.png'
-import { AnimalYardComponent } from '../components/AnimalYardComponent'
 import { getGameDimensions } from '../pixiApp'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 
 export class Yard implements GameObject {
+  static tag: 'Yard'
+
   static getInitialTransform (): Transform {
     const width = getGameDimensions().width / 4
     const height = width
@@ -22,9 +23,9 @@ export class Yard implements GameObject {
 
   static create (): Entity {
     const entity = entityManager.createEntity()
+    entityManager.setEntityTag(Yard.tag, entity)
     entityManager.addComponent(new TransformComponent(Yard.getInitialTransform()), entity)
     entityManager.addComponent(new SpriteComponent({ src: yardImage as string }), entity)
-    entityManager.addComponent(new AnimalYardComponent(), entity)
 
     return entity
   }
