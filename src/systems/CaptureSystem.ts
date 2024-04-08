@@ -16,11 +16,13 @@ export class CaptureSystem implements System {
       const captureComponent = entityManager.getComponentByClassName(CaptureComponent.name, entity) as CaptureComponent
       const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
       const targetEntities = entityManager.getAllEntitiesByTag(captureComponent.targetTag)
+
       for (const targetEntity of targetEntities) {
         const targetTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, targetEntity) as TransformComponent
         const targetCaptureTargetComponent = entityManager.getComponentByClassName(CaptureTargetComponent.name, targetEntity) as CaptureTargetComponent
         const captureRadius = transformComponent.width
         const distance = Math.hypot(transformComponent.x - targetTransformComponent.x, transformComponent.y - targetTransformComponent.y)
+
         if (distance < captureRadius && targetCaptureTargetComponent.groupSize < targetCaptureTargetComponent.maxGroupSize) {
           this.capture(entity, targetEntity, captureComponent)
           targetCaptureTargetComponent.groupSize++
