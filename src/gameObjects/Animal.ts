@@ -11,7 +11,6 @@ import { type Entity } from '../ecsFramework/Entity'
 import { FollowComponent } from '../components/FollowComponent'
 import { type State, StateComponent } from '../components/StateComponent'
 import { CaptureTargetComponent } from '../components/CaptureTargetComponent'
-import { ScoreComponent } from '../components/ScoreComponent'
 import { IsInsideAreaComponent } from '../components/IsInsideAreaComponent'
 import { Yard } from './Yard'
 import { GameEventEmitterComponent } from '../components/GameEventEmitterComponent'
@@ -122,14 +121,9 @@ class InTheYardState implements State {
   }
 
   enter (): void {
-    entityManager.removeComponentByClassName(IsInsideAreaComponent.name, this.entity)
     const gameEventEmitterComponent = entityManager.getComponentByClassName(GameEventEmitterComponent.name, this.entity) as GameEventEmitterComponent
     gameEventEmitterComponent.eventQueue.push(new GameEvent(Animal.enteredYardEventName))
 
-    const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
-    for (const scoreEntity of scoreEntities) {
-      const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, scoreEntity) as ScoreComponent
-      scoreComponent.value++
-    }
+    entityManager.removeComponentByClassName(IsInsideAreaComponent.name, this.entity)
   }
 }

@@ -14,7 +14,6 @@ class GameEventBus {
   listenersByEventName = new Map<string, Array<GameEventListener<any>>>()
 
   emit (event: GameEvent<any>): void {
-    console.log('emit event: ', event)
     const listeners = this.listenersByEventName.get(event.name)
     listeners?.forEach(listener => { listener(event?.payload) })
   }
