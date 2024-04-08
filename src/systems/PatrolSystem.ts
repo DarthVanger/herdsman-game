@@ -3,6 +3,7 @@ import { PatrolComponent } from '../components/PatrolComponent'
 import { TransformComponent } from '../components/TransformComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
+import { Animal } from '../gameObjects/Animal'
 import { GameField } from '../gameObjects/GameField'
 import { pixiApp } from '../pixiApp'
 import { hasIntersection } from '../utils/geometry'
@@ -46,8 +47,8 @@ export class PatrolSystem implements System {
 
   private goToNewDestinationPoint (transformComponent: TransformComponent, patrolComponent: PatrolComponent): void {
     const randomPointOnGameField = {
-      x: Math.random() * GameField.getWidth(pixiApp),
-      y: Math.random() * GameField.getHeight(pixiApp)
+      x: GameField.getX(pixiApp) + Animal.getWidth(pixiApp) + Math.random() * (GameField.getWidth(pixiApp) - Animal.getWidth(pixiApp)),
+      y: GameField.getY(pixiApp) + Animal.getHeight(pixiApp) + Math.random() * (GameField.getHeight(pixiApp) - Animal.getHeight(pixiApp))
     }
 
     patrolComponent.currentDestinationPoint = randomPointOnGameField
