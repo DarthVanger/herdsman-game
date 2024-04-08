@@ -1,4 +1,4 @@
-import { type GameEventListener } from '../ecsFramework/gameEventBus'
+import { type GameEventListener } from '../ecsFramework/GameEventManager'
 
 export class GameEventListenerComponent<P> {
   isAdded = false

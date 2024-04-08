@@ -1,7 +1,7 @@
 import { GameEventListenerComponent } from '../components/GameEventListenerComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
-import { gameEventBus } from '../ecsFramework/gameEventBus'
+import { gameEventManager } from '../ecsFramework/GameEventManager'
 
 export class GameEventListenerSystem implements System {
   setup (): void {
@@ -17,7 +17,7 @@ export class GameEventListenerSystem implements System {
     for (const entity of entities) {
       const gameEventListenerComponent = entityManager.getComponentByClassName(GameEventListenerComponent.name, entity) as GameEventListenerComponent<any>
       if (!gameEventListenerComponent.isAdded) {
-        gameEventBus.addEventListener(gameEventListenerComponent.eventName, gameEventListenerComponent.eventListener)
+        gameEventManager.addEventListener(gameEventListenerComponent.eventName, gameEventListenerComponent.eventListener)
         gameEventListenerComponent.isAdded = true
       }
     }

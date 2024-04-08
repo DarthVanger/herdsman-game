@@ -14,7 +14,7 @@ import { FolloweeComponent } from '../components/FolloweeCompoent'
 import { IsInsideAreaComponent } from '../components/IsInsideAreaComponent'
 import { yard } from './Yard'
 import { GameEventEmitterComponent } from '../components/GameEventEmitterComponent'
-import { GameEvent } from '../ecsFramework/gameEventBus'
+import { GameEvent } from '../ecsFramework/GameEventManager'
 
 class Animal implements GameObject {
   enteredYardEventName = 'animalEnteredYard'

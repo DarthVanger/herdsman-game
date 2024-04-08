@@ -10,7 +10,7 @@ export class GameEvent<Payload = never> {
 
 export type GameEventListener<Payload = never> = (payload?: Payload) => void
 
-class GameEventBus {
+class GameEventManager {
   listenersByEventName = new Map<string, Array<GameEventListener<any>>>()
 
   emit (event: GameEvent<any>): void {
@@ -30,4 +30,4 @@ class GameEventBus {
   }
 }
 
-export const gameEventBus = new GameEventBus()
+export const gameEventManager = new GameEventManager()

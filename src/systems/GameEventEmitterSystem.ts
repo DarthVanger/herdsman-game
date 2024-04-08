@@ -1,7 +1,7 @@
 import { GameEventEmitterComponent } from '../components/GameEventEmitterComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
-import { gameEventBus } from '../ecsFramework/gameEventBus'
+import { gameEventManager } from '../ecsFramework/GameEventManager'
 
 export class GameEventEmitterSystem implements System {
   update (): void {
@@ -15,7 +15,7 @@ export class GameEventEmitterSystem implements System {
           throw new Error('Trying to shift empty event queue')
         }
 
-        gameEventBus.emit(event)
+        gameEventManager.emit(event)
       }
     }
   }
