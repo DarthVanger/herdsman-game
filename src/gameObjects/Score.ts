@@ -1,46 +1,46 @@
-import { type Application } from 'pixi.js'
 import { ScoreComponent } from '../components/ScoreComponent'
 import { ScriptComponent } from '../components/ScriptComponent'
 import { TextComponent } from '../components/TextComponent'
-import { TransformComponent } from '../components/TransformComponent'
+import { type Transform, TransformComponent } from '../components/TransformComponent'
 import { type Entity } from '../ecsFramework/Entity'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type GameObject } from '../ecsFramework/GameObject'
 import { type System } from '../ecsFramework/System'
-import { pixiApp } from '../pixiApp'
+import { getGameDimensions } from '../pixiApp'
 
 export class Score implements GameObject {
-  static getFontSize (pixiApp: Application): number {
-    return pixiApp.renderer.height / 36
+  static getInitialTransform (): Transform {
+    const fontSize = Score.getFontSize()
+    return {
+      x: getGameDimensions().width / 2,
+      y: fontSize / 2,
+      height: fontSize,
+      width: 0,
+      anchor: { x: 0.5, y: 0 }
+    }
   }
 
-  static getY (pixiApp: Application): number {
-    return Score.getFontSize(pixiApp) / 2
+  static getFontSize (): number {
+    return getGameDimensions().height / 36
   }
 
-  static getHeight (pixiApp: Application): number {
-    return Score.getFontSize(pixiApp)
-  }
-
-  static create (): void {
-    const fontSize = Score.getFontSize(pixiApp)
-    const x = pixiApp.renderer.width / 2
-    const y = fontSize / 2
-
+  static create (): Entity {
     const entity = entityManager.createEntity()
 
-    entityManager.addComponent(new TransformComponent({ x, y, anchor: { x: 0.5, y: 0 } }), entity)
+    entityManager.addComponent(new TransformComponent(Score.getInitialTransform()), entity)
 
     entityManager.addComponent(new TextComponent({
       text: 'score: 0',
       style: {
-        fontSize,
+        fontSize: Score.getFontSize(),
         fill: 0xffffff
       }
     }), entity)
 
     entityManager.addComponent(new ScoreComponent(), entity)
     entityManager.addComponent(new ScriptComponent(new ScoreScript(entity)), entity)
+
+    return entity
   }
 }
 

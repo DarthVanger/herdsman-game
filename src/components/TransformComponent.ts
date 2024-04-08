@@ -1,7 +1,15 @@
 import { type PointData } from 'pixi.js'
 import { type Component } from '../ecsFramework/Component'
 
-export class TransformComponent implements Component {
+export interface Transform {
+  x: number
+  y: number
+  width: number
+  height: number
+  anchor: PointData
+}
+
+export class TransformComponent implements Component, Transform {
   x: number
   y: number
   width: number

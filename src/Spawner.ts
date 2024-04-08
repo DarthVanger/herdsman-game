@@ -1,17 +1,17 @@
-/* eslint-disable no-new */
+import { type Entity } from './ecsFramework/Entity'
 import { Animal } from './gameObjects/Animal'
 import { GameField } from './gameObjects/GameField'
 import { MainHero } from './gameObjects/MainHero'
 import { Score } from './gameObjects/Score'
 import { Yard } from './gameObjects/Yard'
-import { pixiApp } from './pixiApp'
 import { hasIntersection } from './utils/geometry'
 
 class Spawner {
   animalSpawnInterval: number
+  gameFieldEntity: Entity
 
   spawnGameField (): void {
-    GameField.create()
+    this.gameFieldEntity = GameField.create()
   }
 
   spawnYard (): void {
@@ -23,7 +23,7 @@ class Spawner {
   }
 
   spawnMainCharacter (): void {
-    MainHero.create()
+    MainHero.create(this.gameFieldEntity)
   }
 
   spawnAnimalsWithRandomInterval (): void {
@@ -43,25 +43,22 @@ class Spawner {
   }
 
   private spawnAnimal (): void {
-    const x = GameField.getX(pixiApp) + Animal.getWidth(pixiApp) + Math.random() * (GameField.getWidth(pixiApp) - Animal.getWidth(pixiApp))
-    const y = GameField.getY(pixiApp) + Animal.getHeight(pixiApp) + Math.random() * (GameField.getHeight(pixiApp) - Animal.getHeight(pixiApp))
+    const initialAnimalTransform = Animal.getInitialTransform()
+    const initialGameFieldTransform = GameField.getInitialTransform()
+    const x = initialGameFieldTransform.x + initialAnimalTransform.width + Math.random() * (initialGameFieldTransform.width - initialAnimalTransform.width)
+    const y = initialGameFieldTransform.y + initialAnimalTransform.height + Math.random() * (initialGameFieldTransform.height - initialAnimalTransform.width)
     const animalTransform = {
+      ...initialAnimalTransform,
       x,
-      y,
-      width: Animal.getWidth(pixiApp),
-      height: Animal.getHeight(pixiApp),
-      anchor: Animal.anchor
+      y
     }
 
-    if (hasIntersection(animalTransform, Yard.getTransform(pixiApp))) {
+    if (hasIntersection(animalTransform, Yard.getInitialTransform())) {
       this.spawnAnimal()
       return
     }
 
-    Animal.create({
-      x,
-      y
-    })
+    Animal.create(animalTransform, this.gameFieldEntity)
   }
 }
 

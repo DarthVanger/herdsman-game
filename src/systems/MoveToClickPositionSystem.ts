@@ -11,14 +11,16 @@ export class MoveToClickPositionSystem implements System {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
       const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
-      const clickableAreaEntities = entityManager.getAllEntitiesByTag(moveToClickPositionComponent.clickableAreaTag)
-      for (const clickableAreaEntity of clickableAreaEntities) {
-        const clickableAreaSpriteComponent = entityManager.getComponentByClassName(SpriteComponent.name, clickableAreaEntity) as SpriteComponent
-        const pixiSprite = clickableAreaSpriteComponent.sprite
-        pixiSprite.eventMode = 'static'
-        pixiSprite.cursor = 'pointer'
-        pixiSprite.on('pointerdown', event => { this.handlePointerDown(event) })
-      }
+
+      const clickableAreaComponent = entityManager.getComponentByClassName(
+        SpriteComponent.name,
+        moveToClickPositionComponent.clickableAreaEntity
+      ) as SpriteComponent
+
+      const pixiSprite = clickableAreaComponent.sprite
+      pixiSprite.eventMode = 'static'
+      pixiSprite.cursor = 'pointer'
+      pixiSprite.on('pointerdown', event => { this.handlePointerDown(event) })
     }
   }
 
