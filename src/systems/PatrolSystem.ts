@@ -1,10 +1,9 @@
-import { type PointData } from 'pixi.js'
 import { PatrolComponent } from '../components/PatrolComponent'
-import { type Transform, TransformComponent } from '../components/TransformComponent'
+import { TransformComponent } from '../components/TransformComponent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type System } from '../ecsFramework/System'
 import { Yard } from '../gameObjects/Yard'
-import { hasIntersection } from '../utils/geometry'
+import { getRandomPointInsideBox, hasIntersection } from '../utils/geometry'
 import { computeVelocityVectorToTarget } from '../utils/physics'
 
 export class PatrolSystem implements System {
@@ -45,21 +44,9 @@ export class PatrolSystem implements System {
 
   private goToNewDestinationPoint (transformComponent: TransformComponent, patrolComponent: PatrolComponent): void {
     const gameFieldTransform = entityManager.getComponentByClassName(TransformComponent.name, patrolComponent.patrolAreaEntity) as TransformComponent
-    const randomPointOnGameField = this.getRandomDestinationPoint(transformComponent, gameFieldTransform)
+    const randomPointOnGameField = getRandomPointInsideBox(transformComponent, gameFieldTransform)
 
     patrolComponent.currentDestinationPoint = randomPointOnGameField
     patrolComponent.velocityVector = computeVelocityVectorToTarget(transformComponent, randomPointOnGameField, patrolComponent.speed)
-  }
-
-  private getRandomDestinationPoint (transform: Transform, gameFieldTransform: Transform): PointData {
-    const leftEdge = gameFieldTransform.x + transform.width * transform.anchor.x
-    const width = gameFieldTransform.width - transform.width * (1 - transform.anchor.x)
-    const topEdge = gameFieldTransform.y + transform.height * transform.anchor.y
-    const height = gameFieldTransform.height - transform.height * (1 - transform.anchor.y)
-
-    return {
-      x: leftEdge + Math.random() * width,
-      y: topEdge + Math.random() * height
-    }
   }
 }

@@ -4,7 +4,7 @@ import { GameField } from './gameObjects/GameField'
 import { MainHero } from './gameObjects/MainHero'
 import { Score } from './gameObjects/Score'
 import { Yard } from './gameObjects/Yard'
-import { hasIntersection } from './utils/geometry'
+import { getRandomPointInsideBox, hasIntersection } from './utils/geometry'
 
 class Spawner {
   animalSpawnInterval: number
@@ -45,12 +45,10 @@ class Spawner {
   private spawnAnimal (): void {
     const initialAnimalTransform = Animal.getInitialTransform()
     const initialGameFieldTransform = GameField.getInitialTransform()
-    const x = initialGameFieldTransform.x + initialAnimalTransform.width + Math.random() * (initialGameFieldTransform.width - initialAnimalTransform.width)
-    const y = initialGameFieldTransform.y + initialAnimalTransform.height + Math.random() * (initialGameFieldTransform.height - initialAnimalTransform.width)
+    const randomPointOnGameField = getRandomPointInsideBox(initialAnimalTransform, initialGameFieldTransform)
     const animalTransform = {
       ...initialAnimalTransform,
-      x,
-      y
+      ...randomPointOnGameField
     }
 
     if (hasIntersection(animalTransform, Yard.getInitialTransform())) {
