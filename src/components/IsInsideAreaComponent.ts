@@ -8,7 +8,7 @@ interface IsInsideAreaComponentParams {
 
 export class IsInsideAreaComponent implements Component {
   targetTag: string
-  isCaptured: false
+  hasEntered = false
   onEnter: (entity: Entity) => void
 
   constructor ({ targetTag, onEnter }: IsInsideAreaComponentParams) {

@@ -15,8 +15,14 @@ export class IsInsideAreaSystem implements System {
         const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
         const targetTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, targetEntity) as TransformComponent
 
-        if (isBoxInsideBox(transformComponent, targetTransformComponent)) {
+        if (
+          !isInsideAreaComponent.hasEntered &&
+          isBoxInsideBox(transformComponent, targetTransformComponent)
+        ) {
           isInsideAreaComponent.onEnter(targetEntity)
+          isInsideAreaComponent.hasEntered = true
+        } else {
+          isInsideAreaComponent.hasEntered = false
         }
       }
     }
