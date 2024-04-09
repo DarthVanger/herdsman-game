@@ -1,7 +1,7 @@
 import mainHeroImage from '../assets/main-hero.png'
 import animalImage from '../assets/cat.png'
-import gameFieldImage from '../assets/game-field.jpeg'
-import yardImage from '../assets/yard.png'
+import gameFieldImage from '../assets/ground-tile.jpeg'
+import yardImage from '../assets/grass-tile.jpeg'
 import { Assets, type Texture } from 'pixi.js'
 
 export enum AssetAlias {

@@ -6,7 +6,7 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 import { AssetAlias } from '../AssetManager'
 import { RenderComponent } from '../components/RenderComponent'
-import { Sprite } from 'pixi.js'
+import { Texture, TilingSprite } from 'pixi.js'
 
 class GameField implements GameObject {
   getInitialTransform (): Transform {
@@ -23,8 +23,13 @@ class GameField implements GameObject {
 
   create (): Entity {
     const entity = entityManager.createEntity()
+
+    const tilingSprite = new TilingSprite({
+      texture: Texture.from(AssetAlias.GAME_FIELD)
+    })
+
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
-    entityManager.addComponent(new RenderComponent(Sprite.from(AssetAlias.GAME_FIELD)), entity)
+    entityManager.addComponent(new RenderComponent(tilingSprite), entity)
 
     return entity
   }

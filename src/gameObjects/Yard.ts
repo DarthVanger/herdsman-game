@@ -5,7 +5,7 @@ import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
 import { AssetAlias } from '../AssetManager'
 import { RenderComponent } from '../components/RenderComponent'
-import { Sprite } from 'pixi.js'
+import { Texture, TilingSprite } from 'pixi.js'
 
 class Yard implements GameObject {
   tag = 'Yard'
@@ -25,8 +25,15 @@ class Yard implements GameObject {
   create (): Entity {
     const entity = entityManager.createEntity()
     entityManager.setEntityTag(this.tag, entity)
+
+    const tileScaleSize = getGameDimensions().width / 1300
+    const tilingSprite = new TilingSprite({
+      texture: Texture.from(AssetAlias.YARD),
+      tileScale: { x: tileScaleSize, y: tileScaleSize }
+    })
+
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
-    entityManager.addComponent(new RenderComponent(Sprite.from(AssetAlias.YARD)), entity)
+    entityManager.addComponent(new RenderComponent(tilingSprite), entity)
 
     return entity
   }
