@@ -9,6 +9,8 @@ import { getRandomPointInsideBox, hasIntersection } from './utils/geometry'
 class Spawner {
   animalSpawnInterval: number
   gameFieldEntity: Entity
+  animalSpawnMaxInterval = 10 * 1000
+  maxAnimalsPerSpawn = 8
 
   spawnGameField (): void {
     this.gameFieldEntity = gameField.create()
@@ -28,7 +30,7 @@ class Spawner {
 
   spawnAnimalsWithRandomInterval (): void {
     this.spawnAnimals()
-    this.animalSpawnInterval = Math.random() * 10 * 1000
+    this.animalSpawnInterval = Math.random() * this.animalSpawnMaxInterval
 
     setTimeout(() => {
       this.spawnAnimalsWithRandomInterval()
@@ -36,7 +38,7 @@ class Spawner {
   }
 
   private spawnAnimals (): void {
-    const animalCount = Math.random() * 5
+    const animalCount = Math.random() * this.maxAnimalsPerSpawn
     for (let i = 0; i < animalCount; i++) {
       this.spawnAnimal()
     }
