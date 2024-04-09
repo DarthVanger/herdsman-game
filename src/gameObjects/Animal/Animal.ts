@@ -1,6 +1,6 @@
 import { type GameObject } from '../../ecsFramework/GameObject'
 import { type Transform, TransformComponent } from '../../components/TransformComponent'
-import { pixiApp, getGameDimensions } from '../../pixiApp'
+import { getGameDimensions } from '../../pixiApp'
 import { mainHero } from '../MainHero'
 import { entityManager } from '../../ecsFramework/EntityManager'
 import { type Entity } from '../../ecsFramework/Entity'
@@ -27,8 +27,7 @@ class Animal implements GameObject {
   }
 
   create (transform: Transform, patrolAreaEntity: Entity): Entity {
-    const screenDiagonal = Math.hypot(pixiApp.renderer.width, pixiApp.renderer.height)
-    const mainHeroSpeed = mainHero.getSpeed(screenDiagonal)
+    const mainHeroSpeed = mainHero.getSpeed()
     const speed = mainHeroSpeed / 2 + Math.random() * mainHeroSpeed / 2
 
     const entity = entityManager.createEntity()

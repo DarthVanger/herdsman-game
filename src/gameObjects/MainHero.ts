@@ -1,7 +1,7 @@
 import { type GameObject } from '../ecsFramework/GameObject'
 import { MoveToClickPositionComponent } from '../components/MoveToClickPositionComponent'
 import { type Transform, TransformComponent } from '../components/TransformComponent'
-import { getGameDimensions, pixiApp } from '../pixiApp'
+import { getGameDimensions } from '../pixiApp'
 import { FolloweeComponent } from '../components/FolloweeCompoent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
@@ -25,13 +25,12 @@ export class MainHero implements GameObject {
     }
   }
 
-  getSpeed (screenDiagonal: number): number {
-    return screenDiagonal / 500
+  getSpeed (): number {
+    return getGameDimensions().diagonal / 500
   }
 
   create (clickableAreaEntity: Entity): Entity {
-    const screenDiagonal = Math.hypot(pixiApp.renderer.width, pixiApp.renderer.height)
-    const speed = this.getSpeed(screenDiagonal)
+    const speed = this.getSpeed()
 
     const entity = entityManager.createEntity()
     entityManager.setEntityTag(this.tag, entity)
