@@ -6,7 +6,7 @@ export class StateSystem implements System {
   setup (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(StateComponent.name)
     for (const entity of entities) {
-      const stateComponent = entityManager.getComponentByClassName(StateComponent.name, entity) as StateComponent
+      const stateComponent = entityManager.getComponentByClass(StateComponent, entity)
       this.changeState(stateComponent)
     }
   }
@@ -14,7 +14,7 @@ export class StateSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(StateComponent.name)
     for (const entity of entities) {
-      const stateComponent = entityManager.getComponentByClassName(StateComponent.name, entity) as StateComponent
+      const stateComponent = entityManager.getComponentByClass(StateComponent, entity)
 
       if (stateComponent.transitionToState !== undefined) {
         this.changeState(stateComponent)

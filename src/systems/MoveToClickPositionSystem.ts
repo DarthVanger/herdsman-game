@@ -10,35 +10,23 @@ export class MoveToClickPositionSystem implements System {
   setup (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
-      const moveToClickPositionComponent = entityManager.getComponentByClassName(
-        MoveToClickPositionComponent.name,
-        entity
-      ) as MoveToClickPositionComponent
+      const moveToClickPositionComponent = entityManager.getComponentByClass(MoveToClickPositionComponent, entity)
 
-      const clickableAreaComponent = entityManager.getComponentByClassName(
-        RenderComponent.name,
-        moveToClickPositionComponent.clickableAreaEntity
-      ) as RenderComponent
+      const clickableAreaComponent = entityManager.getComponentByClass(RenderComponent, moveToClickPositionComponent.clickableAreaEntity)
 
       const pixiDisplayObject = clickableAreaComponent.pixiDisplayObject
       pixiDisplayObject.eventMode = 'static'
       pixiDisplayObject.cursor = 'pointer'
-      pixiDisplayObject.on('pointerdown', event => { this.handlePointerDown(event) })
+      pixiDisplayObject.on('pointerdown', (event: FederatedPointerEvent) => { this.handlePointerDown(event) })
     }
   }
 
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
-      const moveToClickPositionComponent = entityManager.getComponentByClassName(
-        MoveToClickPositionComponent.name,
-        entity
-      ) as MoveToClickPositionComponent
+      const moveToClickPositionComponent = entityManager.getComponentByClass(MoveToClickPositionComponent, entity)
 
-      const transformComponent = entityManager.getComponentByClassName(
-        TransformComponent.name,
-        entity
-      ) as TransformComponent
+      const transformComponent = entityManager.getComponentByClass(TransformComponent, entity)
 
       if (moveToClickPositionComponent.destinationPoint === undefined) return
 
@@ -66,15 +54,9 @@ export class MoveToClickPositionSystem implements System {
   private handlePointerDown (event: FederatedPointerEvent): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
-      const moveToClickPositionComponent = entityManager.getComponentByClassName(
-        MoveToClickPositionComponent.name,
-        entity
-      ) as MoveToClickPositionComponent
+      const moveToClickPositionComponent = entityManager.getComponentByClass(MoveToClickPositionComponent, entity)
 
-      const transformComponent = entityManager.getComponentByClassName(
-        TransformComponent.name,
-        entity
-      ) as TransformComponent
+      const transformComponent = entityManager.getComponentByClass(TransformComponent, entity)
 
       moveToClickPositionComponent.destinationPoint = event.client.clone()
 

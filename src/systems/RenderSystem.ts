@@ -3,18 +3,15 @@ import { type System } from '../ecsFramework/System'
 import { TransformComponent } from '../components/TransformComponent'
 import { pixiApp } from '../pixiApp'
 import { RenderComponent } from '../components/RenderComponent'
-import { Sprite } from 'pixi.js'
+import { type Container, Sprite } from 'pixi.js'
 
 export class RenderSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(RenderComponent.name)
 
     for (const entity of entities) {
-      const renderComponent = entityManager.getComponentByClassName(RenderComponent.name, entity) as RenderComponent
-      const transformComponent = entityManager.getComponentByClassName(
-        TransformComponent.name,
-        entity
-      ) as TransformComponent
+      const renderComponent = entityManager.getComponentByClass(RenderComponent<Container>, entity)
+      const transformComponent = entityManager.getComponentByClass(TransformComponent, entity)
 
       if (!renderComponent.isAddedToStage) {
         pixiApp.stage.addChild(renderComponent.pixiDisplayObject)

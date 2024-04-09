@@ -13,7 +13,12 @@ export class InTheYardState implements State {
   }
 
   enter (): void {
-    const gameEventEmitterComponent = entityManager.getComponentByClassName(GameEventEmitterComponent.name, this.entity) as GameEventEmitterComponent
+    const gameEventEmitterComponent = entityManager.getComponentByClass(GameEventEmitterComponent, this.entity)
+
+    if (gameEventEmitterComponent === undefined) {
+      throw new Error('InTheYardState entity has no GameEventEmitterComponent')
+    }
+
     gameEventEmitterComponent.eventQueue.push(new GameEvent(animal.enteredYardEventName))
   }
 }

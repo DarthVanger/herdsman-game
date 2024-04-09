@@ -1,7 +1,7 @@
-import { type Component } from './Component'
+import { type AllComponentTypesUnion } from '../AllComponentTypesUnion'
 import { Entity } from './Entity'
 
-type ComponentsMap = Map<Entity['id'], Component>
+type ComponentsMap = Map<Entity['id'], AllComponentTypesUnion>
 
 class EntityManager {
   private lowestUnassignedEntityId = 1
@@ -29,7 +29,7 @@ class EntityManager {
     entitiesArray.push(entity)
   }
 
-  addComponent (component: Component, entity: Entity): void {
+  addComponent (component: AllComponentTypesUnion, entity: Entity): void {
     const componentClassName = component.constructor.name
     let componentsMap = this.componentsByClassName.get(componentClassName)
     if (componentsMap === undefined) {
@@ -44,8 +44,25 @@ class EntityManager {
     componentsMap?.delete(entity.id)
   }
 
-  getComponentByClassName (componentClassName: string, entity: Entity): Component | undefined {
-    return this.componentsByClassName.get(componentClassName)?.get(entity.id)
+  /**
+   * Get component by class itself, intead of class name,
+   * to make it possible to have return type of the same class as the component.
+   */
+  getComponentByClass<T extends AllComponentTypesUnion> (componentClass: new(...args: any) => T, entity: Entity): T {
+    const component = this.componentsByClassName.get(componentClass.name)?.get(entity.id) as T | undefined
+
+    if (component === undefined) {
+      throw new Error(
+        `Entity has no component of class "${componentClass.name}". Use EntityManager.hasComponentClass() for branching.`
+      )
+    }
+
+    return component
+  }
+
+  hasComponentClass (componentClass: new(...args: any) => AllComponentTypesUnion, entity: Entity): boolean {
+    const component = this.componentsByClassName.get(componentClass.name)?.get(entity.id)
+    return component !== undefined
   }
 
   getAllEntitiesByComponentClassName (componentClassName: string): Entity[] {

@@ -66,8 +66,8 @@ class Score implements GameObject {
   private handleAnimalYardEnter (): void {
     const scoreEntities = entityManager.getAllEntitiesByComponentClassName(ScoreComponent.name)
     for (const scoreEntity of scoreEntities) {
-      const scoreComponent = entityManager.getComponentByClassName(ScoreComponent.name, scoreEntity) as ScoreComponent
-      const renderComponent = entityManager.getComponentByClassName(RenderComponent.name, scoreEntity) as RenderComponent<Text>
+      const scoreComponent = entityManager.getComponentByClass(ScoreComponent, scoreEntity)
+      const renderComponent = entityManager.getComponentByClass(RenderComponent<Text>, scoreEntity)
 
       scoreComponent.value++
       renderComponent.pixiDisplayObject.text = `score: ${scoreComponent.value}`

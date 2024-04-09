@@ -8,20 +8,10 @@ export class FollowSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(FollowComponent.name)
     for (const entity of entities) {
-      const followComponent = entityManager.getComponentByClassName(
-        FollowComponent.name,
-        entity
-      ) as FollowComponent
+      const followComponent = entityManager.getComponentByClass(FollowComponent, entity)
+      const transformComponent = entityManager.getComponentByClass(TransformComponent, entity)
 
-      const transformComponent = entityManager.getComponentByClassName(
-        TransformComponent.name,
-        entity
-      ) as TransformComponent
-
-      const targetTransformComponent = entityManager.getComponentByClassName(
-        TransformComponent.name,
-        followComponent.targetEntity
-      ) as TransformComponent
+      const targetTransformComponent = entityManager.getComponentByClass(TransformComponent, followComponent.targetEntity)
 
       const velocityVector = computeVelocityVectorToTarget(
         transformComponent, targetTransformComponent, followComponent.followSpeed

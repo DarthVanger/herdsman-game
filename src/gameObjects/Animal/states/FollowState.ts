@@ -31,8 +31,9 @@ export class FollowState implements State {
   }
 
   exit (): void {
-    const followComponent = entityManager.getComponentByClassName(FollowComponent.name, this.entity) as FollowComponent
-    const followeeComponent = entityManager.getComponentByClassName(FolloweeComponent.name, followComponent.targetEntity) as FolloweeComponent
+    const followComponent = entityManager.getComponentByClass(FollowComponent, this.entity)
+    const followeeComponent = entityManager.getComponentByClass(FolloweeComponent, followComponent.targetEntity)
+
     followeeComponent.groupSize--
 
     entityManager.removeComponentByClassName(FollowComponent.name, this.entity)
@@ -40,7 +41,7 @@ export class FollowState implements State {
   }
 
   private handleYardEnter (): void {
-    const stateComponent = entityManager.getComponentByClassName(StateComponent.name, this.entity) as StateComponent
+    const stateComponent = entityManager.getComponentByClass(StateComponent, this.entity)
     stateComponent.transitionToState = new InTheYardState(this.entity)
   }
 }

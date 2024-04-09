@@ -40,9 +40,11 @@ export class PatrolState implements State {
   }
 
   private handleCollisionWithMainHero (collisionEntity: Entity): void {
-    const followeeComponent = entityManager.getComponentByClassName(FolloweeComponent.name, collisionEntity) as FolloweeComponent
+    const followeeComponent = entityManager.getComponentByClass(FolloweeComponent, collisionEntity)
+
     if (followeeComponent.groupSize < followeeComponent.maxGroupSize) {
-      const stateComponent = entityManager.getComponentByClassName(StateComponent.name, this.entity) as StateComponent
+      const stateComponent = entityManager.getComponentByClass(StateComponent, this.entity)
+
       stateComponent.transitionToState = new FollowState(this.entity, mainHero.tag, this.speed)
       followeeComponent.groupSize++
     }
