@@ -14,7 +14,7 @@ Frameworks: Pixi.js
 ## Live Demo
 [https://darthvanger.github.io/herdsman-game/](https://darthvanger.github.io/herdsman-game/)
 
-![Game demo](./readme-img/herdsman-game-demo.gif)
+![Game demo](./readme-img/herdsman-game-demo-v3.gif)
 
 ## Features
 - Player run the application and can see the game field (green area) with Main Hero (red circle).
