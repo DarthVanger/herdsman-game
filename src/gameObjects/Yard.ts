@@ -11,10 +11,10 @@ class Yard implements GameObject {
   tag = 'Yard'
 
   getInitialTransform (): Transform {
-    const width = getGameDimensions().width / 4
+    const width = getGameDimensions().width / 3
     const height = width
     return {
-      x: getGameDimensions().width - width - getGameDimensions().width / 4,
+      x: getGameDimensions().width / 2 - width / 2,
       y: getGameDimensions().height / 2 - height / 2,
       width,
       height,
