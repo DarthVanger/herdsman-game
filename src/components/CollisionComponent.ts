@@ -8,7 +8,6 @@ interface CollisionComponentParams {
 
 export class CollisionComponent implements Component {
   targetTag: string
-  isCaptured: false
   onCollision: (entity: Entity) => void
 
   constructor ({ targetTag, onCollision }: CollisionComponentParams) {
