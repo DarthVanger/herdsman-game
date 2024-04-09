@@ -24,8 +24,14 @@ class GameField implements GameObject {
   create (): Entity {
     const entity = entityManager.createEntity()
 
+    let tileScaleSize = getGameDimensions().width / 1700
+    if (tileScaleSize < 0.6) {
+      tileScaleSize = 0.6
+    }
+
     const tilingSprite = new TilingSprite({
-      texture: Texture.from(AssetAlias.GAME_FIELD)
+      texture: Texture.from(AssetAlias.GAME_FIELD),
+      tileScale: { x: tileScaleSize, y: tileScaleSize }
     })
 
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)

@@ -26,7 +26,11 @@ class Yard implements GameObject {
     const entity = entityManager.createEntity()
     entityManager.setEntityTag(this.tag, entity)
 
-    const tileScaleSize = getGameDimensions().width / 1300
+    let tileScaleSize = getGameDimensions().width / 1700
+    if (tileScaleSize < 0.4) {
+      tileScaleSize = 0.4
+    }
+
     const tilingSprite = new TilingSprite({
       texture: Texture.from(AssetAlias.YARD),
       tileScale: { x: tileScaleSize, y: tileScaleSize }
