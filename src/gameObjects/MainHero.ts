@@ -30,15 +30,13 @@ export class MainHero implements GameObject {
   }
 
   create (clickableAreaEntity: Entity): Entity {
-    const speed = this.getSpeed()
-
     const entity = entityManager.createEntity()
     entityManager.setEntityTag(this.tag, entity)
     entityManager.addComponent(new TransformComponent(this.getInitialTransform()), entity)
     entityManager.addComponent(new RenderComponent(Sprite.from(AssetAlias.MAIN_HERO)), entity)
     entityManager.addComponent(new MoveToClickPositionComponent({
       clickableAreaEntity,
-      speed
+      speed: this.getSpeed()
     }), entity)
     entityManager.addComponent(new FolloweeComponent({ maxGroupSize: 5 }), entity)
 
