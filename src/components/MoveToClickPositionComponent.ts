@@ -8,10 +8,8 @@ interface MoveToClickPositionComponentParams {
 }
 
 export class MoveToClickPositionComponent implements Component {
-  clickableAreaTag: string
   clickableAreaEntity: Entity
   speed: number
-  rotationSpeed = 0.05
   destinationPoint: PointData | undefined
   velocityVector: PointData = { x: 0, y: 0 }
 
