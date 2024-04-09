@@ -19,7 +19,10 @@ export class FollowState implements State {
   }
 
   enter (): void {
-    entityManager.addComponent(new IsInsideAreaComponent({ targetTag: yard.tag, onEnter: () => { this.handleYardEnter() } }), this.entity)
+    entityManager.addComponent(
+      new IsInsideAreaComponent({ targetTag: yard.tag, onEnter: () => { this.handleYardEnter() } }),
+      this.entity
+    )
 
     const targetEntities = entityManager.getAllEntitiesByTag(this.targetTag)
     for (const targetEntity of targetEntities) {
@@ -29,9 +32,11 @@ export class FollowState implements State {
 
   exit (): void {
     const followComponent = entityManager.getComponentByClassName(FollowComponent.name, this.entity) as FollowComponent
-    entityManager.removeComponentByClassName(FollowComponent.name, this.entity)
     const followeeComponent = entityManager.getComponentByClassName(FolloweeComponent.name, followComponent.targetEntity) as FolloweeComponent
     followeeComponent.groupSize--
+
+    entityManager.removeComponentByClassName(FollowComponent.name, this.entity)
+    entityManager.removeComponentByClassName(IsInsideAreaComponent.name, this.entity)
   }
 
   private handleYardEnter (): void {
