@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -34,10 +35,13 @@ module.exports = {
       title: 'Development',
     }),
     new ESLintPlugin(),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    })
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
     clean: true,
   },
 };
