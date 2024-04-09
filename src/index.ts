@@ -7,7 +7,7 @@ const init = async (): Promise<void> => {
 
   document.body.append(game.htmlElement)
 
-  game.start()
+  await game.start()
 }
 
 init()
