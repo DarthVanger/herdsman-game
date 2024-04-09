@@ -8,12 +8,23 @@ export class IsInsideAreaSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(IsInsideAreaComponent.name)
     for (const entity of entities) {
-      const isInsideAreaComponent = entityManager.getComponentByClassName(IsInsideAreaComponent.name, entity) as IsInsideAreaComponent
+      const isInsideAreaComponent = entityManager.getComponentByClassName(
+        IsInsideAreaComponent.name,
+        entity
+      ) as IsInsideAreaComponent
+
       const targetEntities = entityManager.getAllEntitiesByTag(isInsideAreaComponent.targetTag)
 
       for (const targetEntity of targetEntities) {
-        const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
-        const targetTransformComponent = entityManager.getComponentByClassName(TransformComponent.name, targetEntity) as TransformComponent
+        const transformComponent = entityManager.getComponentByClassName(
+          TransformComponent.name,
+          entity
+        ) as TransformComponent
+
+        const targetTransformComponent = entityManager.getComponentByClassName(
+          TransformComponent.name,
+          targetEntity
+        ) as TransformComponent
 
         if (
           !isInsideAreaComponent.hasEntered &&

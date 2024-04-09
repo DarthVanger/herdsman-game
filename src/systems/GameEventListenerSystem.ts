@@ -15,7 +15,11 @@ export class GameEventListenerSystem implements System {
   private addEventListenerOnce (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(GameEventListenerComponent.name)
     for (const entity of entities) {
-      const gameEventListenerComponent = entityManager.getComponentByClassName(GameEventListenerComponent.name, entity) as GameEventListenerComponent<any>
+      const gameEventListenerComponent = entityManager.getComponentByClassName(
+        GameEventListenerComponent.name,
+        entity
+      ) as GameEventListenerComponent<any>
+
       if (!gameEventListenerComponent.isAdded) {
         gameEventManager.addEventListener(gameEventListenerComponent.eventName, gameEventListenerComponent.eventListener)
         gameEventListenerComponent.isAdded = true

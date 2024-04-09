@@ -10,8 +10,15 @@ export class PatrolSystem implements System {
     const entities = entityManager.getAllEntitiesByComponentClassName(PatrolComponent.name)
 
     for (const entity of entities) {
-      const patrolComponent = entityManager.getComponentByClassName(PatrolComponent.name, entity) as PatrolComponent
-      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+      const patrolComponent = entityManager.getComponentByClassName(
+        PatrolComponent.name,
+        entity
+      ) as PatrolComponent
+
+      const transformComponent = entityManager.getComponentByClassName(
+        TransformComponent.name,
+        entity
+      ) as TransformComponent
 
       if (patrolComponent.currentDestinationPoint === undefined) {
         this.goToNewDestinationPoint(transformComponent, patrolComponent)
@@ -37,7 +44,11 @@ export class PatrolSystem implements System {
   private preventGoingIntoForbiddenAreas (patroolingEntityTransform: Transform, patrolComponent: PatrolComponent): void {
     const forbiddenAreaEntities = entityManager.getAllEntitiesByTag(patrolComponent.forbiddenAreasTag)
     for (const forbiddenArea of forbiddenAreaEntities) {
-      const forbiddenAreaTransform = entityManager.getComponentByClassName(TransformComponent.name, forbiddenArea) as TransformComponent
+      const forbiddenAreaTransform = entityManager.getComponentByClassName(
+        TransformComponent.name,
+        forbiddenArea
+      ) as TransformComponent
+
       if (hasIntersection(patroolingEntityTransform, forbiddenAreaTransform)) {
         patroolingEntityTransform.x -= patrolComponent.velocityVector.x
         patroolingEntityTransform.y -= patrolComponent.velocityVector.y
@@ -47,10 +58,16 @@ export class PatrolSystem implements System {
   }
 
   private goToNewDestinationPoint (transformComponent: TransformComponent, patrolComponent: PatrolComponent): void {
-    const patrolAreaTransform = entityManager.getComponentByClassName(TransformComponent.name, patrolComponent.patrolAreaEntity) as TransformComponent
+    const patrolAreaTransform = entityManager.getComponentByClassName(
+      TransformComponent.name,
+      patrolComponent.patrolAreaEntity
+    ) as TransformComponent
+
     const randomPointOnGameField = getRandomPointInsideBox(transformComponent, patrolAreaTransform)
 
     patrolComponent.currentDestinationPoint = randomPointOnGameField
-    patrolComponent.velocityVector = computeVelocityVectorToTarget(transformComponent, randomPointOnGameField, patrolComponent.speed)
+    patrolComponent.velocityVector = computeVelocityVectorToTarget(
+      transformComponent, randomPointOnGameField, patrolComponent.speed
+    )
   }
 }

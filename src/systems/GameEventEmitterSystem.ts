@@ -7,7 +7,11 @@ export class GameEventEmitterSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(GameEventEmitterComponent.name)
     for (const entity of entities) {
-      const eventEmitterComponent = entityManager.getComponentByClassName(GameEventEmitterComponent.name, entity) as GameEventEmitterComponent
+      const eventEmitterComponent = entityManager.getComponentByClassName(
+        GameEventEmitterComponent.name,
+        entity
+      ) as GameEventEmitterComponent
+
       while (eventEmitterComponent.eventQueue.length > 0) {
         const event = eventEmitterComponent.eventQueue.shift()
 

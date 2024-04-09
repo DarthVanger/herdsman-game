@@ -10,7 +10,10 @@ export class MoveToClickPositionSystem implements System {
   setup (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
-      const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
+      const moveToClickPositionComponent = entityManager.getComponentByClassName(
+        MoveToClickPositionComponent.name,
+        entity
+      ) as MoveToClickPositionComponent
 
       const clickableAreaComponent = entityManager.getComponentByClassName(
         RenderComponent.name,
@@ -27,8 +30,15 @@ export class MoveToClickPositionSystem implements System {
   update (): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
-      const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
-      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+      const moveToClickPositionComponent = entityManager.getComponentByClassName(
+        MoveToClickPositionComponent.name,
+        entity
+      ) as MoveToClickPositionComponent
+
+      const transformComponent = entityManager.getComponentByClassName(
+        TransformComponent.name,
+        entity
+      ) as TransformComponent
 
       if (moveToClickPositionComponent.destinationPoint === undefined) return
 
@@ -56,13 +66,22 @@ export class MoveToClickPositionSystem implements System {
   private handlePointerDown (event: FederatedPointerEvent): void {
     const entities = entityManager.getAllEntitiesByComponentClassName(MoveToClickPositionComponent.name)
     for (const entity of entities) {
-      const moveToClickPositionComponent = entityManager.getComponentByClassName(MoveToClickPositionComponent.name, entity) as MoveToClickPositionComponent
-      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+      const moveToClickPositionComponent = entityManager.getComponentByClassName(
+        MoveToClickPositionComponent.name,
+        entity
+      ) as MoveToClickPositionComponent
+
+      const transformComponent = entityManager.getComponentByClassName(
+        TransformComponent.name,
+        entity
+      ) as TransformComponent
 
       moveToClickPositionComponent.destinationPoint = event.client.clone()
 
       moveToClickPositionComponent.velocityVector = computeVelocityVectorToTarget(
-        transformComponent, moveToClickPositionComponent.destinationPoint, moveToClickPositionComponent.speed
+        transformComponent,
+        moveToClickPositionComponent.destinationPoint,
+        moveToClickPositionComponent.speed
       )
     }
   }

@@ -11,7 +11,10 @@ export class RenderSystem implements System {
 
     for (const entity of entities) {
       const renderComponent = entityManager.getComponentByClassName(RenderComponent.name, entity) as RenderComponent
-      const transformComponent = entityManager.getComponentByClassName(TransformComponent.name, entity) as TransformComponent
+      const transformComponent = entityManager.getComponentByClassName(
+        TransformComponent.name,
+        entity
+      ) as TransformComponent
 
       if (!renderComponent.isAddedToStage) {
         pixiApp.stage.addChild(renderComponent.pixiDisplayObject)
@@ -22,7 +25,10 @@ export class RenderSystem implements System {
     }
   }
 
-  private transformPixiDisplayObject (pixiDisplayObject: RenderComponent['pixiDisplayObject'], transformComponent: TransformComponent): void {
+  private transformPixiDisplayObject (
+    pixiDisplayObject: RenderComponent['pixiDisplayObject'],
+    transformComponent: TransformComponent
+  ): void {
     pixiDisplayObject.x = transformComponent.x
     pixiDisplayObject.y = transformComponent.y
     pixiDisplayObject.width = transformComponent.width
