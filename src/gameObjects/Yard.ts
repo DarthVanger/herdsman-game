@@ -3,7 +3,7 @@ import { type GameObject } from '../ecsFramework/GameObject'
 import { getGameDimensions } from '../pixiApp'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
-import { AssetAlias } from '../GameAssets'
+import { AssetAlias } from '../AssetManager'
 import { RenderComponent } from '../components/RenderComponent'
 import { Sprite } from 'pixi.js'
 

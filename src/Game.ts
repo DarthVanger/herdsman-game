@@ -10,7 +10,7 @@ import { StateSystem } from './systems/StateSystem'
 import { IsInsideAreaSystem } from './systems/IsInsideAreaSystem'
 import { GameEventListenerSystem } from './systems/GameEventListenerSystem'
 import { GameEventEmitterSystem } from './systems/GameEventEmitterSystem'
-import { gameAssets } from './GameAssets'
+import { assetManager } from './AssetManager'
 import { RenderSystem } from './systems/RenderSystem'
 
 export class Game {
@@ -38,7 +38,7 @@ export class Game {
     const loadingGraphics = new Text('Loading...', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' })
     pixiApp.stage.addChild(loadingGraphics)
 
-    await gameAssets.preload()
+    await assetManager.preload()
 
     spawner.spawnGameField()
     spawner.spawnYard()

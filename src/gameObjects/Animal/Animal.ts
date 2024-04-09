@@ -7,7 +7,7 @@ import { type Entity } from '../../ecsFramework/Entity'
 import { StateComponent } from '../../components/StateComponent'
 import { GameEventEmitterComponent } from '../../components/GameEventEmitterComponent'
 import { PatrolState } from './states/PatrolState'
-import { AssetAlias } from '../../GameAssets'
+import { AssetAlias } from '../../AssetManager'
 import { RenderComponent } from '../../components/RenderComponent'
 import { Sprite } from 'pixi.js'
 

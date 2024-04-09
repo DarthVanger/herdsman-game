@@ -5,7 +5,7 @@ import { getGameDimensions, pixiApp } from '../pixiApp'
 import { FolloweeComponent } from '../components/FolloweeCompoent'
 import { entityManager } from '../ecsFramework/EntityManager'
 import { type Entity } from '../ecsFramework/Entity'
-import { AssetAlias } from '../GameAssets'
+import { AssetAlias } from '../AssetManager'
 import { RenderComponent } from '../components/RenderComponent'
 import { Sprite } from 'pixi.js'
 

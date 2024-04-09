@@ -11,7 +11,7 @@ export enum AssetAlias {
   YARD = 'YARD'
 }
 
-class GameAssets {
+class AssetManager {
   textures: Record<string, Texture>
 
   assets = [
@@ -38,4 +38,4 @@ class GameAssets {
   }
 }
 
-export const gameAssets = new GameAssets()
+export const assetManager = new AssetManager()
