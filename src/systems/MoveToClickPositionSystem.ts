@@ -3,7 +3,7 @@ import { MoveToClickPositionComponent } from '../components/MoveToClickPositionC
 import { entityManager } from '../ecsFramework/EntityManager'
 import { TransformComponent } from '../components/TransformComponent'
 import { computeVelocityVectorToTarget } from '../utils/physics'
-import { type PointData, type FederatedPointerEvent } from 'pixi.js'
+import { type FederatedPointerEvent } from 'pixi.js'
 import { RenderComponent } from '../components/RenderComponent'
 
 export class MoveToClickPositionSystem implements System {
@@ -32,7 +32,13 @@ export class MoveToClickPositionSystem implements System {
 
       if (moveToClickPositionComponent.destinationPoint === undefined) return
 
-      if (this.computeDistanceToDestination(transformComponent, moveToClickPositionComponent.destinationPoint) <= moveToClickPositionComponent.speed) {
+      const { destinationPoint } = moveToClickPositionComponent
+      const distanceToDestination = Math.hypot(
+        destinationPoint.x - transformComponent.x,
+        destinationPoint.y - transformComponent.y
+      )
+
+      if (distanceToDestination <= moveToClickPositionComponent.speed) {
         transformComponent.x = moveToClickPositionComponent.destinationPoint.x
         transformComponent.y = moveToClickPositionComponent.destinationPoint.y
 
@@ -59,9 +65,5 @@ export class MoveToClickPositionSystem implements System {
         transformComponent, moveToClickPositionComponent.destinationPoint, moveToClickPositionComponent.speed
       )
     }
-  }
-
-  private computeDistanceToDestination (transformComponent: TransformComponent, destinationPoint: PointData): number {
-    return Math.hypot(destinationPoint.x - transformComponent.x, destinationPoint.y - transformComponent.y)
   }
 }
