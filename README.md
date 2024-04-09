@@ -6,12 +6,17 @@ Language: TypeScript
 
 Frameworks: Pixi.js
 
-Patterns:
+## Patterns
 - [Entity Component System](https://www.kodeco.com/2806-introduction-to-component-based-architecture-in-games)
 - State
 - Observer (Event Emitter)
 
-Features:
+## Live Demo
+[https://darthvanger.github.io/herdsman-game/](https://darthvanger.github.io/herdsman-game/)
+
+![Game demo](./readme-img/herdsman-game-demo.gif)
+
+## Features
 - Player run the application and can see the game field (green area) with Main Hero (red circle).
 - Player can see the random number of animals (white circles) located on the game field at random positions.
 - Player can see the destination point: yard (yellow area).
